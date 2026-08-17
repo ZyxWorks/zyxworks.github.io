@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>exwyezed</title>
+<meta name="description" content="A product studio and forward deployed engineering practice. The things we build for ourselves and give away.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none'><rect width='120' height='120' rx='18' fill='%230B0C10'/><g stroke='%23F6F5F1' stroke-width='11' stroke-linecap='round'><line x1='60' y1='60' x2='60' y2='30'/><line x1='60' y1='60' x2='30' y2='82'/><line x1='60' y1='60' x2='94' y2='74'/></g></svg>">
+<meta property="og:title" content="exwyezed">
+<meta property="og:description" content="A product studio and forward deployed engineering practice.">
+<meta property="og:type" content="website">
+<!--
+  The open-source index. One file plus three fonts: no build step, no dependency, no external
+  request, which is the same rule every product listed here keeps. Brand is the exwyezed
+  monochrome, the woven three-stroke mark in one ink, and brass only where a press matters.
+-->
+<style>
+  @font-face { font-family: Sora; font-weight: 400; font-display: swap; src: url("fonts/sora-400.woff2") format("woff2"); }
+  @font-face { font-family: Sora; font-weight: 600; font-display: swap; src: url("fonts/sora-600.woff2") format("woff2"); }
+  @font-face { font-family: "Geist Mono"; font-weight: 400; font-display: swap; src: url("fonts/geist-mono-400.woff2") format("woff2"); }
+
+  :root {
+    color-scheme: dark;
+    --surface: #0b0c10; --panel: #16181f; --ink: #f6f5f1; --subtle: #c9cad0;
+    --muted: #9a9ca6; --dim: #6a6c77; --faint: #4e505a;
+    --ghost: #2a2d36; --ghost-near: #343741; --ghost-far: #1f2127;
+    --edge: rgba(255, 255, 255, 0.09); --edge-strong: rgba(255, 255, 255, 0.16);
+    --signal: #c9903f;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      color-scheme: light;
+      --surface: #f6f5f1; --panel: #ffffff; --ink: #0b0c10; --subtle: #43464f;
+      --muted: #6a6c77; --dim: #8a8d96; --faint: #9a9ca6;
+      --ghost: #e4e2dc; --ghost-near: #dedcd5; --ghost-far: #ebe9e3;
+      --edge: rgba(11, 12, 16, 0.1); --edge-strong: rgba(11, 12, 16, 0.18);
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { background: var(--surface); -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; color: var(--ink); font-size: 17px; line-height: 1.6; letter-spacing: -0.011em;
+    font-family: Sora, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .shell { max-width: 700px; margin: 0 auto; padding: 0 24px; }
+
+  .mk line { stroke: currentColor; stroke-width: 9; stroke-linecap: round; }
+  .mk-vanish line { stroke-dasharray: 44; stroke-dashoffset: 0; transition: stroke-dashoffset 0.55s cubic-bezier(0.22, 0.61, 0.36, 1); }
+  @media (hover: hover) { [data-mk-hover="1"] .mk-vanish line, a:hover .mk-vanish line { stroke-dashoffset: 46; } }
+
+  #backdrop { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
+  #backdrop span { position: absolute; }
+  #backdrop span > span { display: block; height: 100%; width: 100%; will-change: transform; transform-style: preserve-3d; }
+  /* No margin on a phone for the field to drift in, so it is not drawn rather than drawn over a
+     headline. Same rule the zyx backdrop keeps. */
+  @media (max-width: 900px) { #backdrop { display: none; } }
+
+  header { padding: 92px 0 0; }
+  .lockup { display: inline-flex; align-items: center; gap: 11px; color: var(--ink); text-decoration: none; }
+  .lockup .name { font-weight: 600; letter-spacing: -0.04em; font-size: 21px; }
+  h1 { font-size: clamp(30px, 5.6vw, 40px); line-height: 1.14; letter-spacing: -0.03em; font-weight: 600; margin: 40px 0 0; max-width: 20ch; }
+  p.lead { color: var(--muted); font-size: 18px; margin: 20px 0 0; max-width: 50ch; }
+
+  section { padding: 60px 0 0; }
+  h2 {
+    font-family: "Geist Mono", ui-monospace, Menlo, monospace; font-size: 12px;
+    letter-spacing: 0.11em; text-transform: uppercase; color: var(--dim);
+    font-weight: 400; margin: 0 0 6px;
+  }
+
+  .products { margin-top: 18px; }
+  .product {
+    display: block; text-decoration: none; color: inherit;
+    padding: 22px 0; border-top: 1px solid var(--edge);
+  }
+  .product:last-child { border-bottom: 1px solid var(--edge); }
+  .product .top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .product .name { font-size: 20px; font-weight: 600; letter-spacing: -0.03em; }
+  .product .tag {
+    font-family: "Geist Mono", ui-monospace, Menlo, monospace; font-size: 10.5px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim);
+    border: 1px solid var(--edge-strong); border-radius: 4px; padding: 3px 7px;
+  }
+  .product p { color: var(--muted); font-size: 15.5px; margin: 8px 0 0; max-width: 56ch; }
+  a.product:hover .name { color: var(--signal); }
+  a.product:focus-visible { outline: 2px solid var(--signal); outline-offset: 4px; border-radius: 4px; }
+  .product.soon { opacity: 0.62; }
+
+  footer { padding: 64px 0 84px; margin-top: 60px; border-top: 1px solid var(--edge); background: var(--surface); }
+  footer a { color: var(--muted); }
+  .links { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 14.5px; margin-bottom: 20px; }
+  .copyright {
+    font-family: "Geist Mono", ui-monospace, Menlo, monospace;
+    font-size: 11px; letter-spacing: 0.08em; color: var(--faint); text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div id="backdrop" aria-hidden="true"></div>
+
+<div class="shell">
+  <header>
+    <a class="lockup" href="https://runzyx.xyz">
+      <svg class="mk mk-vanish" viewBox="0 0 120 120" width="27" height="27" fill="none" aria-hidden="true">
+        <line x1="60" y1="60" x2="60" y2="30"/><line x1="60" y1="60" x2="30" y2="82"/><line x1="60" y1="60" x2="94" y2="74"/>
+      </svg>
+      <span class="name">exwyezed</span>
+    </a>
+    <h1>A product studio and forward deployed engineering practice.</h1>
+    <p class="lead">We build the runtime a company talks to instead of clicking through its tools,
+    and we come and set it up inside the company. These are the things we built for ourselves
+    along the way, and gave away.</p>
+  </header>
+
+  <section>
+    <h2>Open source</h2>
+    <div class="products">
+
+      <a class="product" href="https://exwyezed.github.io/murmurflow/">
+        <div class="top"><span class="name">MurmurFlow</span><span class="tag">macOS &middot; Windows</span></div>
+        <p>Press-to-talk dictation that runs on your own machine. Hold a key, say it, let go, and
+        the words land at your cursor in any app. No account, no subscription, and nothing you say
+        leaves the machine.</p>
+      </a>
+
+      <a class="product" href="https://github.com/exwyezed/agent-office">
+        <div class="top"><span class="name">Agent Office</span><span class="tag">terminal</span></div>
+        <p>Build agents with agents, in one tmux window. Several coding agents at their own desks,
+        working the same repo, with you at the front of the room.</p>
+      </a>
+
+      <div class="product soon">
+        <div class="top"><span class="name">Zyx</span><span class="tag">soon</span></div>
+        <p>The company runtime: one intelligence you talk to, inside the tools you already use.
+        Not open source yet. <a href="https://runzyx.xyz">See what it does.</a></p>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="shell">
+    <div class="links">
+      <a href="https://runzyx.xyz">runzyx.xyz</a>
+      <a href="https://github.com/exwyezed">GitHub</a>
+      <a href="https://runzyx.xyz#fde">Working with us</a>
+      <a href="https://runzyx.xyz/legal#imprint">Imprint</a>
+    </div>
+    <div class="copyright">&copy; <span id="year">2026</span> EXWYEZED &middot; ZYX &middot; FORWARD DEPLOYED AI FOR YOUR COMPANY</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // The field backdrop, same nine marks and the same night-sky wander as the zyx site.
+  (function () {
+    var FIELD = [
+      ["5%", "14%", 84, "ghost-near"], ["22%", "70%", 116, "ghost-near"], ["44%", "7%", 32, "ghost-far"],
+      ["68%", "18%", 68, "ghost"],     ["88%", "52%", 26, "ghost-far"],  ["74%", "84%", 96, "ghost-near"],
+      ["9%", "46%", 44, "ghost-far"],  ["54%", "58%", 56, "ghost"],      ["34%", "32%", 30, "ghost-far"]
+    ];
+    var BASE = [0.058, 0.086, 0.046, 0.069, 0.035, 0.052];
+    var RAD = Math.PI / 180;
+    var wrap = document.getElementById("backdrop");
+    var marks = FIELD.map(function (f, i) {
+      var tile = document.createElement("span");
+      tile.style.cssText = "left:" + f[0] + ";top:" + f[1] + ";width:" + f[2] + "px;height:" + f[2] + "px;perspective:450px;color:var(--" + f[3] + ")";
+      var inner = document.createElement("span");
+      inner.innerHTML = '<svg class="mk mk-vanish" viewBox="0 0 120 120" width="100%" height="100%" fill="none">' +
+        '<line x1="60" y1="62" x2="60" y2="30"/><line x1="60" y1="62" x2="32" y2="82"/><line x1="60" y1="62" x2="88" y2="82"/></svg>';
+      tile.appendChild(inner);
+      wrap.appendChild(tile);
+      return {
+        el: tile, inner: inner, rect: null, hv: false,
+        ax: (i * 47 + 20) % 360, ay: (i * 83 + 35) % 360, az: (i * 29) % 360,
+        p: BASE.map(function () { return Math.random() * Math.PI * 2; }),
+        f: BASE.map(function (f) { return f * (0.8 + Math.random() * 0.5); })
+      };
+    });
+
+    marks.forEach(function (m) {
+      m.inner.style.transform =
+        "rotateX(" + (Math.sin(m.ax * RAD) * 32).toFixed(2) + "deg) " +
+        "rotateY(" + (Math.sin(m.ay * RAD) * 32).toFixed(2) + "deg) " +
+        "rotateZ(" + (Math.sin(m.az * RAD) * 16).toFixed(2) + "deg)";
+    });
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var mx = -9999, my = -9999;
+    addEventListener("pointermove", function (e) { mx = e.clientX; my = e.clientY; }, { passive: true });
+    addEventListener("resize", function () { marks.forEach(function (m) { m.rect = null; }); });
+
+    (function step() {
+      var s = performance.now() / 1000;
+      marks.forEach(function (m) {
+        var r = m.rect || (m.rect = m.el.getBoundingClientRect());
+        var p = m.p, f = m.f;
+        var x = Math.sin(s * f[0] + p[0]) * 26 + Math.sin(s * f[1] + p[1]) * 12;
+        var y = Math.cos(s * f[2] + p[2]) * 22 + Math.sin(s * f[3] + p[3]) * 10;
+        m.inner.style.transform =
+          "translate(" + x.toFixed(1) + "px," + y.toFixed(1) + "px) " +
+          "rotateX(" + (Math.sin(s * f[4] + p[4]) * 20).toFixed(2) + "deg) " +
+          "rotateY(" + (Math.sin(s * f[5] + p[5]) * 20).toFixed(2) + "deg)";
+        var over = mx >= r.left - 4 && mx <= r.right + 4 && my >= r.top - 4 && my <= r.bottom + 4;
+        if (m.hv !== over) {
+          m.hv = over;
+          if (over) m.inner.dataset.mkHover = "1"; else delete m.inner.dataset.mkHover;
+        }
+      });
+      requestAnimationFrame(step);
+    })();
+  })();
+</script>
+
+</body>
+</html>
