@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>exwyezed</title>
-<meta name="description" content="A product studio and forward deployed engineering practice. The things we build for ourselves and give away.">
+<meta name="description" content="Open source tools we built because we needed them: MurmurFlow, local press-to-talk dictation, and Agent Office, several coding agents in one tmux window.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none'><rect width='120' height='120' rx='18' fill='%230B0C10'/><g stroke='%23F6F5F1' stroke-width='11' stroke-linecap='round'><line x1='60' y1='60' x2='60' y2='30'/><line x1='60' y1='60' x2='30' y2='82'/><line x1='60' y1='60' x2='94' y2='74'/></g></svg>">
 <meta property="og:title" content="exwyezed">
 <meta property="og:description" content="A product studio and forward deployed engineering practice.">
@@ -95,6 +95,7 @@
   footer { padding: 64px 0 84px; margin-top: 60px; border-top: 1px solid var(--edge); background: var(--surface); }
   footer a { color: var(--muted); }
   .links { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 14.5px; margin-bottom: 20px; }
+  .who { color: var(--muted); font-size: 14.5px; margin: 0 0 22px; max-width: 52ch; }
   .copyright {
     font-family: "Geist Mono", ui-monospace, Menlo, monospace;
     font-size: 11px; letter-spacing: 0.08em; color: var(--faint); text-transform: uppercase;
@@ -113,10 +114,9 @@
       </svg>
       <span class="name">exwyezed</span>
     </a>
-    <h1>A product studio and forward deployed engineering practice.</h1>
-    <p class="lead">We build the runtime a company talks to instead of clicking through its tools,
-    and we come and set it up inside the company. These are the things we built for ourselves
-    along the way, and gave away.</p>
+    <h1>Tools we built because we needed them.</h1>
+    <p class="lead">They came out of our own work at exwyezed, and they are free. No account, no
+    subscription, and nothing that phones home.</p>
   </header>
 
   <section>
@@ -125,15 +125,17 @@
 
       <a class="product" href="https://hannesreinsch.github.io/murmurflow/">
         <div class="top"><span class="name">MurmurFlow</span><span class="tag">macOS &middot; Windows</span></div>
-        <p>Press-to-talk dictation that runs on your own machine. Hold a key, say it, let go, and
-        the words land at your cursor in any app. No account, no subscription, and nothing you say
-        leaves the machine.</p>
+        <p>We were losing more of the day to typing than to thinking. Talking is about three times
+        faster, and every dictation app we tried wanted a subscription and a copy of our voice. So:
+        hold a key, say it, let go, and the words appear at your cursor in whatever app you are in.
+        It transcribes on your own machine.</p>
       </a>
 
       <a class="product" href="https://github.com/hannesreinsch/agent-office">
         <div class="top"><span class="name">Agent Office</span><span class="tag">terminal</span></div>
-        <p>Build agents with agents, in one tmux window. Several coding agents at their own desks,
-        working the same repo, with you at the front of the room.</p>
+        <p>Running several coding agents at once meant a heap of terminal windows and no idea which
+        one was stuck. So each agent got its own desk in a single tmux window, all of them on the
+        same repo, with you at the front of the room.</p>
       </a>
 
     </div>
@@ -142,13 +144,15 @@
 
 <footer>
   <div class="shell">
+    <p class="who">exwyezed is a product studio and forward deployed engineering practice.
+    <a href="https://runzyx.xyz">What we do for companies</a>.</p>
     <div class="links">
       <a href="https://runzyx.xyz">runzyx.xyz</a>
       <a href="https://github.com/hannesreinsch">GitHub</a>
       <a href="https://runzyx.xyz#fde">Working with us</a>
       <a href="https://runzyx.xyz/legal#imprint">Imprint</a>
     </div>
-    <div class="copyright">&copy; <span id="year">2026</span> EXWYEZED &middot; ZYX &middot; FORWARD DEPLOYED AI FOR YOUR COMPANY</div>
+    <div class="copyright">&copy; <span id="year">2026</span> EXWYEZED</div>
   </div>
 </footer>
 
