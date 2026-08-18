@@ -1,0 +1,19 @@
+# The site is deliberately not listed anywhere. Visitors reach it by typing the URL.
+# Revisit this once there is a proper Impressum.
+
+# Search engines are allowed to CRAWL on purpose. That is not a mistake.
+# robots.txt cannot remove a page from an index, only the "noindex" meta tag in the
+# HTML can, and a crawler has to be let in to read it. Blocking them here would
+# freeze any already-indexed URL in place forever.
+User-agent: Googlebot
+Disallow:
+
+User-agent: Bingbot
+Disallow:
+
+# Everyone else, AI crawlers included (GPTBot, ClaudeBot, Google-Extended,
+# PerplexityBot, CCBot, Bytespider, ...): stay out, all paths.
+User-agent: *
+Disallow: /
+
+# Any new page must carry the same "noindex" meta tag as index.html.
