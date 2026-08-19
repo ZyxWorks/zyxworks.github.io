@@ -14,6 +14,7 @@
      Lift this once there is a proper Impressum. Any new page needs the same two tags. -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="ai-content-declaration" content="noai, noimageai">
+<script>try{if(localStorage.getItem("lang")==="de")document.documentElement.lang="de"}catch(e){}</script>
 <!--
   The open-source index. One file plus three fonts: no build step, no dependency, no external
   request, which is the same rule every product listed here keeps. Brand is the exwyezed
@@ -32,7 +33,7 @@
   :root {
     color-scheme: dark;
     --surface: #0b0c10; --panel: #16181f; --ink: #f6f5f1; --subtle: #c9cad0;
-    --muted: #9a9ca6; --dim: #6a6c77; --faint: #4e505a;
+    --muted: #9a9ca6; --kicker: #8a8d96; --dim: #6a6c77; --faint: #4e505a;
     --ghost: #2a2d36; --ghost-near: #343741; --ghost-far: #1f2127;
     --edge: rgba(255, 255, 255, 0.09); --edge-strong: rgba(255, 255, 255, 0.16);
     --signal: #c9903f;
@@ -65,6 +66,26 @@
      move the constellation makes with a per-mark phone slot. Below 900px the script swaps in
      fewer, smaller marks pinned to the margins, and the depth grade drops a step so they read as
      sky instead of as content. */
+
+  /* EN/DE, the same control as the zyx site: two plain words, a slash between them, active in
+     warm-white and inactive dim. <html lang> is the ONLY state - CSS hides the other language, so
+     both copies live in the markup and stay in step. Translated text carries data-lang; anything
+     that reads the same in both languages is written once. */
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .lang {
+    display: inline-flex; align-items: center; gap: 6px; color: var(--faint);
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
+  }
+  .lang button {
+    appearance: none; background: none; border: 0; padding: 0; font: inherit;
+    letter-spacing: inherit; color: var(--kicker); cursor: pointer;
+    transition: color 140ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .lang button:hover { color: var(--subtle); }
+  .lang button[aria-pressed="true"] { color: var(--ink); }
+  .lang button:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 3px; }
+  html[lang="en"] [data-lang="de"], html[lang="de"] [data-lang="en"] { display: none; }
 
   header { padding: 92px 0 0; }
   .lockup { display: inline-flex; align-items: center; gap: 11px; color: var(--ink); text-decoration: none; }
@@ -122,36 +143,56 @@
 
 <div class="shell">
   <header>
-    <a class="lockup" href="https://runzyx.xyz">
-      <svg class="mk mk-vanish" viewBox="0 0 120 120" width="27" height="27" fill="none" aria-hidden="true">
-        <line x1="60" y1="60" x2="60" y2="30"/><line x1="60" y1="60" x2="30" y2="82"/><line x1="60" y1="60" x2="94" y2="74"/>
-      </svg>
-      <span class="name">exwyezed</span>
-    </a>
-    <h1>Tools we built because we needed them.</h1>
-    <p class="lead">They came out of our own work at exwyezed, and they are free. No account, no
+    <div class="topbar">
+      <a class="lockup" href="https://runzyx.xyz">
+        <svg class="mk mk-vanish" viewBox="0 0 120 120" width="27" height="27" fill="none" aria-hidden="true">
+          <line x1="60" y1="60" x2="60" y2="30"/><line x1="60" y1="60" x2="30" y2="82"/><line x1="60" y1="60" x2="94" y2="74"/>
+        </svg>
+        <span class="name">exwyezed</span>
+      </a>
+      <div class="lang" role="group" aria-label="Language / Sprache">
+        <button type="button" data-set="en" aria-pressed="true">en</button>
+        <span aria-hidden="true">/</span>
+        <button type="button" data-set="de" aria-pressed="false">de</button>
+      </div>
+    </div>
+    <h1 data-lang="en">Tools we built because we needed them.</h1>
+    <h1 data-lang="de">Werkzeuge, die wir gebaut haben, weil wir sie brauchten.</h1>
+    <p class="lead" data-lang="en">They came out of our own work at exwyezed, and they are free. No account, no
     subscription, and nothing that phones home.</p>
+    <p class="lead" data-lang="de">Sie sind aus unserer eigenen Arbeit bei exwyezed entstanden, und sie sind
+    kostenlos. Kein Konto, kein Abo, und nichts, was nach Hause telefoniert.</p>
   </header>
 
   <section>
-    <h2>Open source</h2>
+    <h2 data-lang="en">Open source</h2>
+    <h2 data-lang="de">Open Source</h2>
     <div class="products">
 
       <a class="product" href="https://hannesreinsch.github.io/murmurflow/">
         <div class="top"><span class="name">MurmurFlow</span><span class="tag">macOS &middot; Windows</span></div>
-        <p>We were losing more of the day to typing than to thinking. Talking is about three times
+        <p data-lang="en">We were losing more of the day to typing than to thinking. Talking is about three times
         faster, and every dictation app we tried wanted a subscription and a copy of our voice. So:
         hold a key, say it, let go, and the words appear at your cursor in whatever app you are in.
         It transcribes on your own machine.</p>
-        <p class="origin">Part of <b>Zyx</b>, the runtime we run exwyezed on.</p>
+        <p data-lang="de">Wir haben mehr vom Tag mit Tippen verloren als mit Denken. Sprechen ist etwa dreimal
+        schneller, und jede Diktier-App, die wir probiert haben, wollte ein Abo und eine Kopie
+        unserer Stimme. Also: Taste halten, sprechen, loslassen, und die Worte stehen an der
+        Schreibmarke, in welcher App du auch bist. Umgewandelt wird auf deinem eigenen Rechner.</p>
+        <p class="origin" data-lang="en">Part of <b>Zyx</b>, the runtime we run exwyezed on.</p>
+        <p class="origin" data-lang="de">Teil von <b>Zyx</b>, der Laufzeit, auf der exwyezed läuft.</p>
       </a>
 
       <a class="product" href="https://hannesreinsch.github.io/agent-office/">
         <div class="top"><span class="name">Agent Office</span><span class="tag">terminal</span></div>
-        <p>Running several coding agents at once meant a heap of terminal windows and no idea which
+        <p data-lang="en">Running several coding agents at once meant a heap of terminal windows and no idea which
         one was stuck. So each agent got its own desk in a single tmux window, all of them on the
         same repo, with you at the front of the room.</p>
-        <p class="origin">The room we build <b>Zyx</b> in.</p>
+        <p data-lang="de">Mehrere Coding-Agenten gleichzeitig bedeutete einen Haufen Terminal-Fenster und keine
+        Ahnung, welcher davon feststeckt. Also bekam jeder Agent einen eigenen Schreibtisch in
+        einem einzigen tmux-Fenster, alle am selben Repo, mit dir vorne im Raum.</p>
+        <p class="origin" data-lang="en">The room we build <b>Zyx</b> in.</p>
+        <p class="origin" data-lang="de">Der Raum, in dem wir <b>Zyx</b> bauen.</p>
       </a>
 
     </div>
@@ -160,13 +201,17 @@
 
 <footer>
   <div class="shell">
-    <p class="who">exwyezed is a product studio and forward deployed engineering practice.
+    <p class="who" data-lang="en">exwyezed is a product studio and forward deployed engineering practice.
     <a href="https://runzyx.xyz">What we do for companies</a>.</p>
+    <p class="who" data-lang="de">exwyezed ist ein Produktstudio und eine Forward Deployed Engineering Praxis.
+    <a href="https://runzyx.xyz">Was wir für Firmen tun</a>.</p>
     <div class="links">
       <a href="https://runzyx.xyz">runzyx.xyz</a>
       <a href="https://github.com/hannesreinsch">GitHub</a>
-      <a href="https://runzyx.xyz#fde">Working with us</a>
-      <a href="https://runzyx.xyz/legal#imprint">Imprint</a>
+      <a href="https://runzyx.xyz#fde" data-lang="en">Working with us</a>
+      <a href="https://runzyx.xyz#fde" data-lang="de">Zusammenarbeit</a>
+      <a href="https://runzyx.xyz/legal#imprint" data-lang="en">Imprint</a>
+      <a href="https://runzyx.xyz/legal#imprint" data-lang="de">Impressum</a>
     </div>
     <div class="copyright">&copy; <span id="year">2026</span> EXWYEZED</div>
   </div>
@@ -174,6 +219,21 @@
 
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  // The language switch. <html lang> carries the state (CSS does the showing), localStorage
+  // remembers it, and the head sets it before first paint so a returning visitor sees no flash.
+  (function () {
+    var buttons = document.querySelectorAll(".lang button");
+    function set(lang, store) {
+      document.documentElement.lang = lang;
+      buttons.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.set === lang); });
+      if (store) { try { localStorage.setItem("lang", lang); } catch (e) {} }
+    }
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () { set(b.dataset.set, true); });
+    });
+    set(document.documentElement.lang === "de" ? "de" : "en");
+  })();
 
   // The field backdrop, same nine marks and the same night-sky wander as the zyx site.
   (function () {
