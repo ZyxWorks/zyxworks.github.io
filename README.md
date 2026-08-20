@@ -1,9 +1,9 @@
-# hannesreinsch.github.io
+# zyxworks.github.io
 
-### The open source index for [exwyezed](https://runzyx.xyz).
+### The open source index for [ZyxWorks](https://zyxworks.com).
 
 One page, listing the tools the studio built for its own work and gave away.
-Live at **[hannesreinsch.github.io](https://hannesreinsch.github.io/)**.
+Live at **[hannesreinsch.github.io/zyxworks.github.io](https://hannesreinsch.github.io/zyxworks.github.io/)**.
 
 ![One file](https://img.shields.io/badge/files-1%20html%20%2B%203%20fonts-c9903f)
 ![No build step](https://img.shields.io/badge/build%20step-none-6a6c77)
@@ -17,10 +17,11 @@ Live at **[hannesreinsch.github.io](https://hannesreinsch.github.io/)**.
 | **[MurmurFlow](https://hannesreinsch.github.io/murmurflow/)** | Press-to-talk dictation that runs on your own machine. Hold a key, say it, let go, and the words land at your cursor in any app. macOS and Windows. [Source](https://github.com/hannesreinsch/murmurflow) |
 | **[Agent Office](https://hannesreinsch.github.io/agent-office/)** | Four coding agents in one tmux window, each in its own git worktree. The one that has stopped and is waiting on you says so on its border. [Source](https://github.com/hannesreinsch/agent-office) |
 
-Both came out of [Zyx](https://runzyx.xyz#zyx), the runtime the studio runs on.
+Both came out of [Zyx](https://zyxworks.com#zyx), the runtime the studio runs on.
 Each one keeps its own product page in its own repo under `docs/`, so a tool and
 the page selling it ship together and can never drift apart. This repo owns the
-index and the host's `robots.txt`, nothing else.
+index, nothing else. It used to own the host's `robots.txt` as well, because it
+used to serve the host root; see the note below for what the repo rename changed.
 
 ## How it is built
 
@@ -49,20 +50,27 @@ The site is deliberately not indexed yet, and both halves of that are on purpose
 - everyone else, AI crawlers included, is disallowed on all paths.
 
 Lift this once there is a proper Impressum. **Any new page in this repo needs the
-same two tags**, or it becomes the one indexed page on the host.
+same two tags**, or it becomes the one indexed page here.
+
+**The repo rename moved this file off the host root.** A user site has to be the
+repo named `hannesreinsch.github.io`; renaming it to `zyxworks.github.io` made it
+a project page, so `hannesreinsch.github.io/robots.txt` now 404s and the "everyone
+else, stay out" rule no longer covers the host or its sibling project pages. The
+`noindex` tag, which is the half that actually removes a page from an index, is
+unaffected.
 
 ## Where this comes from
 
-**[exwyezed](https://runzyx.xyz)** is a product studio and forward deployed
+**[ZyxWorks](https://zyxworks.com)** is a product studio and forward deployed
 engineering practice. These are the things we built for ourselves and gave away.
 
 **Tools:** [MurmurFlow](https://hannesreinsch.github.io/murmurflow/) ·
 [Agent Office](https://hannesreinsch.github.io/agent-office/)
 
-**Studio:** [what we do for companies](https://runzyx.xyz) ·
-[Zyx](https://runzyx.xyz#zyx) ·
-[working with us](https://runzyx.xyz#fde) ·
+**Studio:** [what we do for companies](https://zyxworks.com) ·
+[Zyx](https://zyxworks.com#zyx) ·
+[working with us](https://zyxworks.com#fde) ·
 [GitHub](https://github.com/hannesreinsch)
 
-**Legal:** [imprint](https://runzyx.xyz/legal#imprint) ·
-[privacy](https://runzyx.xyz/legal#privacy)
+**Legal:** [imprint](https://zyxworks.com/legal#imprint) ·
+[privacy](https://zyxworks.com/legal#privacy)
