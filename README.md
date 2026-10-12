@@ -5,19 +5,19 @@
 One page, listing the tools the studio built for its own work and gave away.
 Live at **[zyxworks.github.io](https://zyxworks.github.io/)**.
 
-![One file](https://img.shields.io/badge/files-1%20html%20%2B%203%20fonts-c9903f)
-![No build step](https://img.shields.io/badge/build%20step-none-6a6c77)
-![No dependencies](https://img.shields.io/badge/dependencies-0-6a6c77)
-![No external requests](https://img.shields.io/badge/external%20requests-0-6a6c77)
+![One file](https://img.shields.io/badge/files-1%20html%20%2B%203%20fonts-111111)
+![No build step](https://img.shields.io/badge/build%20step-none-666666)
+![No dependencies](https://img.shields.io/badge/dependencies-0-666666)
+![No external requests](https://img.shields.io/badge/external%20requests-0-666666)
 
 ## What is listed here
 
 | | |
 |---|---|
 | **[MurmurFlow](https://zyxworks.github.io/murmurflow/)** | Press-to-talk dictation that runs on your own machine. Hold a key, say it, let go, and the words land at your cursor in any app. macOS and Windows. [Source](https://github.com/ZyxWorks/murmurflow) |
-| **[Agent Office](https://zyxworks.github.io/agent-office/)** | Four coding agents in one tmux window, each in its own git worktree. The one that has stopped and is waiting on you says so on its border. [Source](https://github.com/ZyxWorks/agent-office) |
+| **[Agent Office](https://zyxworks.github.io/agent-office/)** | A workspace for your coding agents, each in its own git worktree. You see at a glance which one waits for you. macOS and Linux. [Source](https://github.com/ZyxWorks/agent-office) |
 
-Both came out of [Zyx](https://zyxworks.com#zyx), the OS the studio runs on.
+Both came out of the work on [Zyx](https://zyxworks.com).
 Each one keeps its own product page in its own repo under `docs/`, so a tool and
 the page selling it ship together and can never drift apart. This repo owns the
 index, nothing else. It used to own the host's `robots.txt` as well, because it
@@ -25,7 +25,8 @@ used to serve the host root; see the note below for what the repo rename changed
 
 ## How it is built
 
-`index.html` plus three self-hosted `woff2` files. That is the whole site: 54 kB,
+`index.html` plus three self-hosted `woff2` files (Atkinson Hyperlegible Next and Mono, OFL,
+licences beside them). That is the whole site:
 no build step, no framework, no package manager, no Google Fonts request, nothing
 to run before deploying and nothing that can rot between deploys. GitHub Pages
 serves the repo root on every push to `main`.
@@ -35,9 +36,8 @@ products themselves make: a page selling a tool that phones home to nobody shoul
 not phone home either.
 
 Design decisions live in comments inside `index.html`, next to the code they
-explain: why the site is dark only, why the backdrop field has a separate narrow
-placement for phones, why it is served from a personal account rather than an
-organisation.
+explain: why the signal yellow is not used here, how the language switch keeps
+both copies in step, why Zyx comes after the tools.
 
 ## A note on the robots policy
 
@@ -61,16 +61,13 @@ again (`/murmurflow`, `/agent-office`).
 
 ## Where this comes from
 
-**[ZyxWorks](https://zyxworks.com)** is a product studio and forward deployed
-engineering practice. These are the things we built for ourselves and gave away.
+**[ZyxWorks](https://zyxworks.com)** makes Zyx. These are the things we built for
+ourselves and gave away.
 
 **Tools:** [MurmurFlow](https://zyxworks.github.io/murmurflow/) ·
 [Agent Office](https://zyxworks.github.io/agent-office/)
 
-**Studio:** [what we do for companies](https://zyxworks.com) ·
-[Zyx](https://zyxworks.com#zyx) ·
-[working with us](https://zyxworks.com#fde) ·
+**ZyxWorks:** [Zyx, in private beta](https://zyxworks.com) ·
 [GitHub](https://github.com/ZyxWorks)
 
-**Legal:** [imprint](https://zyxworks.com/legal#imprint) ·
-[privacy](https://zyxworks.com/legal#privacy)
+**Legal:** [imprint and privacy](https://zyxworks.com/legal/)
