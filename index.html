@@ -165,7 +165,7 @@
   .product .name { font-size: 20px; font-weight: var(--z-dw); letter-spacing: var(--z-dt); }
   .product .tag {
     font-family: var(--mono); font-size: 12px; color: var(--ink);
-    background: var(--surface); border: 1px solid var(--ink); padding: 1px 7px;
+    background: var(--surface); border: var(--z-bw-hair) solid var(--ink); padding: 1px 7px;
   }
   .product p { color: var(--muted); font-size: 15.5px; margin: 8px 0 0; max-width: 58ch; }
   /* Where the tool came FROM. Small and faint so it reads as a provenance line rather than as a
@@ -206,7 +206,7 @@
 
     .js section:not(.in)::after, .js footer:not(.in)::before { transform: scaleX(0); }
     .js section:not(.in) h2::after { transform: scale(0); }
-    .js :not(.in) > .products, .js footer:not(.in) .foot { transform: translate(4px, 4px); box-shadow: none; }
+    .js :not(.in) > .products, .js footer:not(.in) .foot { transform: translate(var(--z-block-travel), var(--z-block-travel)); box-shadow: none; }
     section.in::after, footer.in::before { animation: draw-rule 240ms steps(4) backwards; }
     .in h2::after { animation: stamp 80ms steps(2) 240ms backwards; }
     .in > .products, .in .foot { animation: land 120ms steps(2) 320ms backwards; }
@@ -219,7 +219,7 @@
   @keyframes hop { 0% { transform: translateY(-3px); } 50% { transform: translateY(-1px); } 100% { transform: none; } }
   @keyframes draw-rule { from { transform: scaleX(0); } }
   @keyframes stamp { from { transform: scale(0); } }
-  @keyframes land { from { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--ink); } }
+  @keyframes land { from { transform: translate(var(--z-block-travel), var(--z-block-travel)); box-shadow: 0 0 0 var(--ink); } }
 </style>
 </head>
 <body>
