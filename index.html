@@ -59,15 +59,13 @@
   a { color: inherit; }
   :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 5px; }
 
-  /* The cube: fine hexagon outline, the xyz axis inside at 1.4 times its weight. One draw-in at
-     load, and no other motion. */
-  .mk { stroke: currentColor; stroke-width: 10.5; stroke-linecap: round; stroke-linejoin: round; flex: none; }
-  .mk .axis { stroke-width: 14.7; }
+  /* The cube is one filled shape: outline, xyz axis and three open panels in a single path. One
+     draw-in at load, and no other motion. */
+  .mk { fill: currentColor; flex: none; }
   @media (prefers-reduced-motion: no-preference) {
-    .mk path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 560ms var(--ease) forwards; }
-    .mk .axis { animation-delay: 180ms; }
+    .mk { animation: draw 560ms var(--ease) both; }
   }
-  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes draw { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
 
   /* EN/DE: two plain words, a slash between them. <html lang> is the ONLY state - CSS hides the
      other language, so both copies live in the markup and stay in step. Translated text carries
@@ -134,10 +132,7 @@
   <header>
     <div class="topbar">
       <a class="lockup" href="https://zyxworks.com">
-        <svg class="mk" viewBox="0 0 120 120" width="30" height="30" fill="none" aria-hidden="true">
-          <path pathLength="1" d="M60 12L101.6 36V84L60 108L18.4 84V36Z"/>
-          <path class="axis" pathLength="1" d="M60 60V30M60 60L34 75M60 60L86 75"/>
-        </svg>
+        <svg class="mk" viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill-rule="evenodd" d="M60 7.09L105.82 33.55V86.45L60 112.91L14.18 86.45V33.55ZM54.05 20.34L22.68 38.45V74.68L54.05 56.56ZM65.95 20.34V56.56L97.32 74.68V38.45ZM60 66.87L28.63 84.98L60 103.09L91.37 84.98Z"/></svg>
         <span class="name">ZyxWorks</span>
       </a>
       <div class="lang" role="group" aria-label="Language / Sprache">
