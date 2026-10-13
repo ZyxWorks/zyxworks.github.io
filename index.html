@@ -94,12 +94,13 @@
      in both languages is written once. */
   .topbar { display: flex; align-items: stretch; min-height: 54px; background: var(--surface); border: var(--edge); box-shadow: var(--stand); }
   .lockup { flex: 1; display: flex; align-items: center; gap: 10px; padding: 0 16px; color: var(--ink); text-decoration: none; }
-  /* One hover for every control (brand sheet): the cell is pressed in, the hard inner ink shadow.
-     Nothing slides in. A press turns a link to ink at once. */
+  /* One hover for every control (brand sheet): the cell is pressed in, the hard inner grey
+     shadow. Nothing slides in. While the pointer is down the cell is pressed deeper at once, and
+     on release the shadow comes back up. A press never fills with ink: ink is for a state. */
   .links a { background: var(--surface); }
   .lockup, .links a { transition: box-shadow var(--z-d-press) ease-out; }
   .lockup:hover, .links a:hover { box-shadow: var(--z-shadow-in); }
-  .links a:active { background: var(--ink); box-shadow: none; }
+  .lockup:active, .links a:active { box-shadow: var(--z-shadow-in-deep); transition-duration: 0s; }
   .lockup:focus-visible, .lang button:focus-visible, .links a:focus-visible { outline-color: currentColor; outline-offset: -6px; }
   .lockup .name { font-weight: var(--z-wm-weight); letter-spacing: var(--z-wm-track); font-size: 22px; }
   .lang { display: flex; font-family: var(--mono); font-size: var(--z-small); font-weight: 700; text-transform: uppercase; }
@@ -107,12 +108,13 @@
     /* A button does not inherit text-transform: the UA sheet sets it to none, so the uppercase
        above would not reach the words. A cell is 52px wide and as tall as the bar, which is
        enough for a thumb. Hover presses the cell in (the shadow is inside, the word moves one
-       pixel down and right); the chosen language is the inverted cell. */
+       pixel down and right) and a press goes deeper; the chosen language is the inverted cell. */
     appearance: none; min-width: 52px; margin: 0; padding: 0 14px; border: 0; border-left: var(--rule); border-radius: var(--z-r-ctl);
     background: var(--surface); color: var(--ink); font: inherit; text-transform: inherit; cursor: pointer;
   }
   .lang button:hover { box-shadow: var(--pressed); padding: 2px 13px 0 15px; }
-  .lang button:active, .lang button[aria-pressed="true"] { background: var(--ink); color: var(--surface); box-shadow: none; padding: 0 14px; }
+  .lang button:active { box-shadow: var(--z-shadow-in-deep); padding: 2px 13px 0 15px; }
+  .lang button[aria-pressed="true"] { background: var(--ink); color: var(--surface); box-shadow: none; padding: 0 14px; }
   html[lang="en"] [data-lang="de"], html[lang="de"] [data-lang="en"] { display: none; }
 
   /* The one print ornament: crop marks at the four corners of the head, just outside it. */
@@ -184,7 +186,6 @@
     display: flex; align-items: center; min-height: 48px; padding: 0 14px; color: var(--ink); text-decoration: none;
   }
   .links a::after { content: "\2192"; content: "\2192" / ""; margin-left: auto; padding-left: 10px; font-family: var(--mono); font-weight: 400; }
-  .links a:active { color: var(--surface); }
   .links a:hover::after { transform: translateX(3px); }
   .copyright { padding: 10px 14px; background: var(--ground); font-family: var(--mono); font-size: 12px; color: var(--faint); }
   @media (max-width: 560px) { .links { grid-template-columns: 1fr; } }
@@ -213,7 +214,7 @@
   }
   @media (prefers-reduced-motion: reduce) {
     a.product:active { transform: none; }
-    .lang button:hover { padding: 0 14px; }
+    .lang button:hover, .lang button:active { padding: 0 14px; }
   }
   @keyframes hop { 0% { transform: translateY(-3px); } 50% { transform: translateY(-1px); } 100% { transform: none; } }
   @keyframes draw-rule { from { transform: scaleX(0); } }
