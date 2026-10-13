@@ -19,7 +19,7 @@
 <meta name="ai-content-declaration" content="noai, noimageai">
 <script>try{if(localStorage.getItem("lang")==="de")document.documentElement.lang="de"}catch(e){}if("IntersectionObserver"in window)document.documentElement.classList.add("js")</script>
 <!--
-  The open-source index. One file plus three fonts: no build step, no dependency, no external
+  The open-source index. One page, the brand token sheet and three fonts: no build step, no dependency, no external
   request, which is the same rule every product listed here keeps.
 
   Brand is Zyx Textmarker: pure neutrals, light only, Atkinson Hyperlegible Next and Mono, the cube mark. The signal yellow means "this needs a
@@ -37,23 +37,34 @@
   moves in steps, once, and not at all with reduced motion: a rule draws, a block lands, a fill
   wipes, an arrow steps. The page is complete without the script.
 -->
+<!-- The brand values. zyx-tokens.css is a verbatim copy from the Zyx repo (its "make brand-tokens"
+     overwrites it), so it is never edited here. It loads first; everything below reads var(--z-*). -->
+<link rel="stylesheet" href="zyx-tokens.css">
 <style>
   @font-face { font-family: "Atkinson Hyperlegible Next"; font-weight: 200 800; font-display: swap; src: url("fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
   @font-face { font-family: "Atkinson Hyperlegible Next"; font-weight: 200 800; font-display: swap; src: url("fonts/atkinson-hyperlegible-next-latin-ext-wght-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF; }
   @font-face { font-family: "Atkinson Hyperlegible Mono"; font-weight: 200 800; font-display: swap; src: url("fonts/atkinson-hyperlegible-mono-latin-wght-normal.woff2") format("woff2"); }
 
+  /* Own identity: what belongs to this page and not to the brand sheet. Light only (no
+     data-theme is set, so the sheet's dark values never apply), the mono upper-case section
+     label, and the size of the shadow a card shows while you point at it. */
   :root {
     color-scheme: light;
-    /* The three greys: the ground, white for a card, and one deeper step for the company section. */
-    --ground: #f4f4f4; --surface: #ffffff; --deep: #ececec; --signal: #ffd23c;
-    --ink: #111111; --muted: #444444; --faint: #666666;
-    --rule: 2px solid var(--ink);
-    --pressed: inset 3px 3px 0 var(--ink);
-    --edge: 3px solid var(--ink);
-    --stand: 4px 4px 0 var(--ink);
-    --sans: "Atkinson Hyperlegible Next", Verdana, system-ui, sans-serif;
-    --mono: "Atkinson Hyperlegible Mono", ui-monospace, Menlo, monospace;
-    --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --label-track: 0.06em;
+    --card-drop: 3px;
+  }
+  /* Aliases: every colour, edge, shadow, font and time comes from zyx-tokens.css. The three
+     greys are the ground, white for a card, and one deeper step for the company section. */
+  :root {
+    --ground: var(--z-ground); --surface: var(--z-surface); --deep: var(--z-raised); --signal: var(--z-signal);
+    --ink: var(--z-ink); --muted: var(--z-muted); --faint: var(--z-faint);
+    --rule: var(--z-bw-rule) solid var(--z-ink);
+    --edge: var(--z-bw-block) solid var(--z-ink);
+    --pressed: var(--z-shadow-in);
+    --stand: var(--z-shadow-block);
+    --sans: var(--z-font-text);
+    --mono: var(--z-font-mono);
+    --ease: var(--z-ease);
   }
   *, *::before, *::after { box-sizing: border-box; }
   html { background: var(--ground); -webkit-text-size-adjust: 100%; overflow-x: clip; }
@@ -63,14 +74,15 @@
   }
   .shell { max-width: 720px; margin: 0 auto; padding: 0 24px; }
   a { color: inherit; }
-  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  :focus-visible { outline: var(--z-bw) solid var(--z-focus); outline-offset: 3px; }
 
   /* The cube is two paths: a yellow hexagon, and over it one filled shape in the text colour
      (outline, xyz axis and three open panels), so the yellow shows through the panels. One
      draw-in at load, and no other motion. The wipe sits on the svg, so it covers both paths. */
   .mk { fill: currentColor; flex: none; }
+  .mk path:first-child, .pm path:first-child { fill: var(--z-icon-fill); }
   @media (prefers-reduced-motion: no-preference) {
-    .mk { animation: draw 560ms var(--ease) both; }
+    .mk { animation: draw var(--z-d3) var(--ease) both; }
   }
   @keyframes draw { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
 
@@ -82,20 +94,22 @@
      in both languages is written once. */
   .topbar { display: flex; align-items: stretch; min-height: 54px; background: var(--surface); border: var(--edge); box-shadow: var(--stand); }
   .lockup { flex: 1; display: flex; align-items: center; gap: 10px; padding: 0 16px; color: var(--ink); text-decoration: none; }
-  /* A hover fill is a second background layer that rises from the bottom; the transition further
-     down makes it one smooth move. */
-  .lockup, .links a { background-repeat: no-repeat; background-position: 0 100%; background-size: 100% 0%; }
-  .lockup { background-image: linear-gradient(var(--ground), var(--ground)); }
-  .lockup:hover, .links a:hover, .links a:active { background-size: 100% 100%; }
+  /* A hover fill is a second background layer that grows from the left in one smooth move, and
+     the text turns when it is half way. Direction, time and curve are the brand sheet's wipe
+     tokens, so one edit there turns every cell. With reduced motion the sheet sets the time to 0. */
+  .lockup { background: linear-gradient(var(--ground), var(--ground)) var(--z-wipe-pos) / var(--z-wipe-rest) no-repeat; }
+  .links a { background: var(--surface) linear-gradient(var(--ink), var(--ink)) var(--z-wipe-pos) / var(--z-wipe-rest) no-repeat; }
+  .lockup, .links a { transition: background-size var(--z-d-wipe) var(--z-ease-wipe), color 0s calc(var(--z-d-wipe) / 2); }
+  .lockup:hover, .links a:hover, .links a:active { background-size: var(--z-wipe-full); }
   .lockup:focus-visible, .lang button:focus-visible, .links a:focus-visible { outline-color: currentColor; outline-offset: -6px; }
-  .lockup .name { font-weight: 700; letter-spacing: -0.025em; font-size: 22px; }
-  .lang { display: flex; font-family: var(--mono); font-size: 12.5px; font-weight: 700; text-transform: uppercase; }
+  .lockup .name { font-weight: var(--z-wm-weight); letter-spacing: var(--z-wm-track); font-size: 22px; }
+  .lang { display: flex; font-family: var(--mono); font-size: var(--z-small); font-weight: 700; text-transform: uppercase; }
   .lang button {
     /* A button does not inherit text-transform: the UA sheet sets it to none, so the uppercase
        above would not reach the words. A cell is 52px wide and as tall as the bar, which is
        enough for a thumb. Hover presses the cell in (the shadow is inside, the word moves one
        pixel down and right); the chosen language is the inverted cell. */
-    appearance: none; min-width: 52px; margin: 0; padding: 0 14px; border: 0; border-left: var(--rule); border-radius: 0;
+    appearance: none; min-width: 52px; margin: 0; padding: 0 14px; border: 0; border-left: var(--rule); border-radius: var(--z-r-ctl);
     background: var(--surface); color: var(--ink); font: inherit; text-transform: inherit; cursor: pointer;
   }
   .lang button:hover { box-shadow: var(--pressed); padding: 2px 13px 0 15px; }
@@ -107,11 +121,12 @@
   header::after {
     --m: linear-gradient(var(--ink), var(--ink));
     content: ""; position: absolute; inset: 54px -14px -24px; pointer-events: none;
-    background: var(--m) 0 0 / 8px 2px, var(--m) 0 0 / 2px 8px, var(--m) 100% 0 / 8px 2px, var(--m) 100% 0 / 2px 8px,
-      var(--m) 0 100% / 8px 2px, var(--m) 0 100% / 2px 8px, var(--m) 100% 100% / 8px 2px, var(--m) 100% 100% / 2px 8px;
+    --w: var(--z-bw-rule);
+    background: var(--m) 0 0 / 8px var(--w), var(--m) 0 0 / var(--w) 8px, var(--m) 100% 0 / 8px var(--w), var(--m) 100% 0 / var(--w) 8px,
+      var(--m) 0 100% / 8px var(--w), var(--m) 0 100% / var(--w) 8px, var(--m) 100% 100% / 8px var(--w), var(--m) 100% 100% / var(--w) 8px;
     background-repeat: no-repeat;
   }
-  h1 { font-size: clamp(32px, 6vw, 46px); line-height: 1.08; letter-spacing: -0.03em; font-weight: 800; margin: 44px 0 0; max-width: 18ch; }
+  h1 { font-size: clamp(32px, 6vw, 46px); line-height: 1.1; letter-spacing: var(--z-dt); font-weight: var(--z-dw); margin: 44px 0 0; max-width: 18ch; }
   p.lead { color: var(--muted); font-size: 18px; margin: 20px 0 0; max-width: 50ch; }
 
   /* Every section opens with a 2px ink rule as wide as the window and a small mono label: its
@@ -122,13 +137,13 @@
   section { position: relative; margin-top: 64px; padding: 18px 0 0; counter-increment: sec; }
   section::before, section::after, footer::before { content: ""; position: absolute; top: 0; left: calc(50% - 50vw); width: 100vw; }
   section::before { z-index: -1; bottom: 0; }
-  section::after, footer::before { height: 2px; background: var(--ink); transform-origin: 0 0; }
+  section::after, footer::before { height: var(--z-bw-rule); background: var(--ink); transform-origin: 0 0; }
   footer::before { left: 0; width: 100%; }
   section + section { padding-bottom: 68px; }
   section + section::before { background: var(--deep); }
   h2 {
     display: flex; align-items: center; gap: 10px; margin: 0; color: var(--ink);
-    font-family: var(--mono); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    font-family: var(--mono); font-size: var(--z-label-size); font-weight: var(--z-label-weight); letter-spacing: var(--label-track); text-transform: uppercase;
   }
   h2::before { order: -2; content: counter(sec, decimal-leading-zero); content: counter(sec, decimal-leading-zero) / ""; }
   h2::after { order: -1; content: ""; flex: none; width: 9px; height: 9px; background: var(--ink); }
@@ -136,14 +151,18 @@
   /* A list of cards is one ruled block: the block's ink ground shows through a 2px gap, so one
      ink line stands between two cards and there is no white space. The block stands on a solid
      ink shadow. The card you point at (or tab to) never lifts: it stays where it is and the yellow
-     shadow shows under it, and on press it moves down into that shadow and lands. */
-  .products { position: relative; isolation: isolate; display: grid; gap: 2px; margin-top: 18px; background: var(--ink); border: var(--edge); box-shadow: var(--stand); }
+     shadow shows under it, and on press it moves down into that shadow and lands. The place a
+     click lands stays still: an unseen layer covers the card and, while it is pressed, reaches
+     back over the strip the card has just left, so a pointer on its top or left edge keeps it. */
+  .products { position: relative; isolation: isolate; display: grid; gap: var(--z-bw-rule); margin-top: 18px; background: var(--ink); border: var(--edge); box-shadow: var(--stand); }
   .product { display: block; position: relative; padding: 22px 24px; text-decoration: none; color: inherit; background: var(--surface); }
-  a.product:hover, a.product:focus-visible { z-index: 1; box-shadow: 0 0 0 2px var(--ink), 3px 3px 0 2px var(--signal); }
-  a.product:active { background: var(--ground); box-shadow: 0 0 0 2px var(--ink); transform: translate(3px, 3px); }
+  a.product::after { content: ""; position: absolute; inset: 0; }
+  a.product:hover, a.product:focus-visible { z-index: 1; box-shadow: 0 0 0 var(--z-bw) var(--ink), var(--card-drop) var(--card-drop) 0 var(--z-bw) var(--signal); }
+  a.product:active { background: var(--ground); box-shadow: 0 0 0 var(--z-bw) var(--ink); transform: translate(var(--card-drop), var(--card-drop)); }
+  a.product:active::after { inset: calc(var(--card-drop) * -1) 0 0 calc(var(--card-drop) * -1); }
   .product .pm { fill: currentColor; flex: none; align-self: center; }
   .product .top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-  .product .name { font-size: 20px; font-weight: 700; letter-spacing: -0.022em; }
+  .product .name { font-size: 20px; font-weight: var(--z-dw); letter-spacing: var(--z-dt); }
   .product .tag {
     font-family: var(--mono); font-size: 12px; color: var(--ink);
     background: var(--surface); border: 1px solid var(--ink); padding: 1px 7px;
@@ -160,11 +179,10 @@
      its whole cell to ink and the arrow steps to the right. */
   footer { position: relative; padding: 42px 0 76px; }
   .who { color: var(--muted); font-size: 14.5px; margin: 0 0 20px; max-width: 52ch; }
-  .foot { display: grid; gap: 2px; background: var(--ink); border: var(--edge); box-shadow: var(--stand); }
-  .links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; font-size: 14.5px; font-weight: 700; }
+  .foot { display: grid; gap: var(--z-bw-rule); background: var(--ink); border: var(--edge); box-shadow: var(--stand); }
+  .links { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--z-bw-rule); font-size: 14.5px; font-weight: 700; }
   .links a {
     display: flex; align-items: center; min-height: 48px; padding: 0 14px; color: var(--ink); text-decoration: none;
-    background-color: var(--surface); background-image: linear-gradient(var(--ink), var(--ink));
   }
   .links a::after { content: "\2192"; content: "\2192" / ""; margin-left: auto; padding-left: 10px; font-family: var(--mono); font-weight: 400; }
   .links a:hover, .links a:active { color: var(--surface); }
@@ -172,20 +190,19 @@
   .copyright { padding: 10px 14px; background: var(--ground); font-family: var(--mono); font-size: 12px; color: var(--faint); }
   @media (max-width: 560px) { .links { grid-template-columns: 1fr; } }
 
-  /* Movement. Everything is stepped, short and runs once; with reduced motion none of it exists
-     and every part shows its end state.
-     - hover: a fill rises from the bottom in one smooth move and the text turns when it is
-       half way, the arrow steps right, a card's shadow comes and goes smoothly and its logo hops.
+  /* Movement. Everything is short and runs once; with reduced motion none of it exists and every
+     part shows its end state.
+     - hover: a fill grows from the left (see the top bar), the arrow steps right, a card's shadow
+       comes and goes smoothly and its logo hops.
      - scroll: when a section or the foot first comes into view the script below sets "in" on it.
        Its rule draws from the left, the ink square stamps in, then the block lands on its
        shadow. The "js" class is set in the head only where the observer exists, so without the
        script nothing waits in a start state. The top bar does not land: the mark already draws
        in at load, and one thing moves at a time. */
   @media (prefers-reduced-motion: no-preference) {
-    .lockup, .links a { transition: background-size 160ms cubic-bezier(0.2, 0.7, 0.2, 1), color 0s 80ms; }
-    .links a::after { transition: transform 120ms steps(3); }
-    .product { transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
-    a.product:hover .pm { animation: hop 180ms steps(1, end) 1; }
+    .links a::after { transition: transform var(--z-d-press) steps(3); }
+    .product { transition: transform var(--z-d-press) ease-out, box-shadow var(--z-d-press) ease-out; }
+    a.product:hover .pm { animation: hop var(--z-d1) steps(1, end) 1; }
 
     .js section:not(.in)::after, .js footer:not(.in)::before { transform: scaleX(0); }
     .js section:not(.in) h2::after { transform: scale(0); }
