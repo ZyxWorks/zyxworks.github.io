@@ -107,6 +107,7 @@
   a.product:hover, a.product:focus-visible { border-color: var(--ink); box-shadow: var(--shadow); transform: translate(-2px, -2px); }
   a.product:active { box-shadow: none; transform: none; }
   @media (prefers-reduced-motion: reduce) { a.product:hover, a.product:focus-visible { transform: none; } }
+  .product .pm { fill: currentColor; flex: none; align-self: center; }
   .product .top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
   .product .name { font-size: 20px; font-weight: 700; letter-spacing: -0.022em; }
   .product .tag {
@@ -159,10 +160,10 @@
     <div class="products">
 
       <a class="product" href="https://zyxworks.github.io/murmurflow/">
-        <div class="top"><span class="name">MurmurFlow</span><span class="tag">macOS &middot; Windows</span></div>
-        <p data-lang="en">Hold a key, speak, let go. The words appear at your cursor, in whatever app you
+        <div class="top"><svg class="pm" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path fill="#FFD23C" d="M60 12L73.86 20L73.86 38L87.71 30L101.57 38L101.57 82L87.71 90L73.86 82L73.86 100L60 108L46.14 100L46.14 82L32.29 90L18.43 82L18.43 38L32.29 30L46.14 38L46.14 20Z"/><path fill-rule="evenodd" d="M60 7.09L75.96 16.3L75.96 31.88L87.71 25.09L105.82 35.55L105.82 84.45L87.71 94.91L75.96 88.12L75.96 103.7L60 112.91L44.04 103.7L44.04 88.12L32.29 94.91L14.18 84.45L14.18 35.55L32.29 25.09L44.04 31.88L44.04 16.3ZM60 16.91L67.46 21.21L67.46 98.79L60 103.09L52.54 98.79L52.54 21.21ZM80.26 39.21L87.71 34.91L97.32 40.45L97.32 79.55L87.71 85.09L80.26 80.79ZM39.74 39.21L39.74 80.79L32.29 85.09L22.68 79.55L22.68 40.45L32.29 34.91Z"/></svg><span class="name">MurmurFlow</span><span class="tag">macOS &middot; Windows</span></div>
+        <p data-lang="en">Tap a key twice, speak, tap again. The words appear at your cursor, in whatever app you
         are in. It transcribes on your own machine, so no copy of your voice leaves it.</p>
-        <p data-lang="de">Taste halten, sprechen, loslassen. Die Worte stehen an der Schreibmarke, in
+        <p data-lang="de">Taste zweimal tippen, sprechen, noch einmal tippen. Die Worte stehen an der Schreibmarke, in
         jeder App. Umgewandelt wird auf deinem eigenen Rechner, also verlässt keine Kopie deiner
         Stimme das Gerät.</p>
         <p class="origin" data-lang="en">Built while we made <b>Zyx</b>.</p>
@@ -170,7 +171,7 @@
       </a>
 
       <a class="product" href="https://zyxworks.github.io/agent-office/">
-        <div class="top"><span class="name">Agent Office</span><span class="tag">macOS &middot; Linux</span></div>
+        <div class="top"><svg class="pm" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path fill="#FFD23C" d="M60 18L80.78 30L80.78 54L101.57 66L101.57 90L80.78 102L60 90L39.22 102L18.43 90L18.43 66L39.22 54L39.22 30Z"/><path fill-rule="evenodd" d="M60 13.09L85.03 27.55L85.03 51.55L105.82 63.55L105.82 92.45L80.78 106.91L60 94.91L39.22 106.91L14.18 92.45L14.18 63.55L34.97 51.55L34.97 27.55ZM60 22.91L76.53 32.45L76.53 49.06L60 58.61L43.47 49.06L43.47 32.45ZM82.93 60.15L97.32 68.45L97.32 87.55L80.78 97.09L66.4 88.79L66.4 69.7ZM37.07 60.15L53.6 69.7L53.6 88.79L39.22 97.09L22.68 87.55L22.68 68.45Z"/></svg><span class="name">Agent Office</span><span class="tag">macOS &middot; Linux</span></div>
         <p data-lang="en">A workspace for your coding agents. Each agent has its own desk and its own
         git worktree, and you see at a glance which one waits for you. One command installs,
         starts and updates it.</p>
