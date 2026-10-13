@@ -82,9 +82,9 @@
      in both languages is written once. */
   .topbar { display: flex; align-items: stretch; min-height: 54px; background: var(--surface); border: var(--edge); box-shadow: var(--stand); }
   .lockup { flex: 1; display: flex; align-items: center; gap: 10px; padding: 0 16px; color: var(--ink); text-decoration: none; }
-  /* A hover fill is a second background layer that grows from the left; the transition further
+  /* A hover fill is a second background layer that rises from the bottom; the transition further
      down makes it one smooth move. */
-  .lockup, .links a { background-repeat: no-repeat; background-size: 0% 100%; }
+  .lockup, .links a { background-repeat: no-repeat; background-position: 0 100%; background-size: 100% 0%; }
   .lockup { background-image: linear-gradient(var(--ground), var(--ground)); }
   .lockup:hover, .links a:hover, .links a:active { background-size: 100% 100%; }
   .lockup:focus-visible, .lang button:focus-visible, .links a:focus-visible { outline-color: currentColor; outline-offset: -6px; }
@@ -174,7 +174,7 @@
 
   /* Movement. Everything is stepped, short and runs once; with reduced motion none of it exists
      and every part shows its end state.
-     - hover: a fill wipes in from the left in one smooth move and the text turns when it is
+     - hover: a fill rises from the bottom in one smooth move and the text turns when it is
        half way, the arrow steps right, a card's shadow comes and goes smoothly and its logo hops.
      - scroll: when a section or the foot first comes into view the script below sets "in" on it.
        Its rule draws from the left, the ink square stamps in, then the block lands on its
@@ -182,7 +182,7 @@
        script nothing waits in a start state. The top bar does not land: the mark already draws
        in at load, and one thing moves at a time. */
   @media (prefers-reduced-motion: no-preference) {
-    .lockup, .links a { transition: background-size 180ms cubic-bezier(0.2, 0.7, 0.2, 1), color 0s 90ms; }
+    .lockup, .links a { transition: background-size 160ms cubic-bezier(0.2, 0.7, 0.2, 1), color 0s 80ms; }
     .links a::after { transition: transform 120ms steps(3); }
     .product { transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
     a.product:hover .pm { animation: hop 180ms steps(1, end) 1; }
