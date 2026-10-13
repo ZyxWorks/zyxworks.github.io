@@ -51,7 +51,7 @@ The site is deliberately not indexed, and both halves of that are on purpose:
 **Any new page in this repo needs the
 same two tags**, or it becomes the one indexed page here.
 
-**This file is at the host root.** This repo is the **ZyxWorks** organization's
+**This file is at the host root.** This repo is the organization's
 user site, so `zyxworks.github.io/robots.txt` is served and
 the "everyone else, stay out" rule covers the host and its sibling project pages
 again (`/murmurflow`, `/agent-office`).
