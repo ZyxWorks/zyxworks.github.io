@@ -33,7 +33,7 @@
   tight and the page around them stays calm. Radius 0, no blur, no gradient, no tint.
 
   On top of that: the main blocks (top bar, card lists, foot) have a 3px outer edge and stand on a
-  solid ink shadow, the company list on a hatched one. Sections are counted in mono. What moves,
+  solid ink shadow. Sections are counted in mono. What moves,
   moves in steps, once, and not at all with reduced motion: a rule draws, a block lands, a fill
   wipes, an arrow steps. The page is complete without the script.
 -->
@@ -48,11 +48,9 @@
     --ground: #f4f4f4; --surface: #ffffff; --deep: #ececec; --signal: #ffd23c;
     --ink: #111111; --muted: #444444; --faint: #666666;
     --rule: 2px solid var(--ink);
-    --shadow: 3px 3px 0 var(--signal);
     --pressed: inset 3px 3px 0 var(--ink);
     --edge: 3px solid var(--ink);
     --stand: 4px 4px 0 var(--ink);
-    --hatch: repeating-linear-gradient(-45deg, var(--ink) 0 1px, transparent 1px 5px);
     --sans: "Atkinson Hyperlegible Next", Verdana, system-ui, sans-serif;
     --mono: "Atkinson Hyperlegible Mono", ui-monospace, Menlo, monospace;
     --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -85,7 +83,7 @@
   .topbar { display: flex; align-items: stretch; min-height: 54px; background: var(--surface); border: var(--edge); box-shadow: var(--stand); }
   .lockup { flex: 1; display: flex; align-items: center; gap: 10px; padding: 0 16px; color: var(--ink); text-decoration: none; }
   /* A hover fill is a second background layer that grows from the left; the transition further
-     down makes it come in as four steps. */
+     down makes it one smooth move. */
   .lockup, .links a { background-repeat: no-repeat; background-size: 0% 100%; }
   .lockup { background-image: linear-gradient(var(--ground), var(--ground)); }
   .lockup:hover, .links a:hover, .links a:active { background-size: 100% 100%; }
@@ -137,14 +135,12 @@
 
   /* A list of cards is one ruled block: the block's ink ground shows through a 2px gap, so one
      ink line stands between two cards and there is no white space. The block stands on a solid
-     ink shadow; the company list, the quieter of the two, stands on the hatch instead. The card
-     you point at (or tab to) lifts out of the block onto the yellow shadow and lands on press. */
+     ink shadow. The card you point at (or tab to) never lifts: it stays where it is and the yellow
+     shadow shows under it, and on press it moves down into that shadow and lands. */
   .products { position: relative; isolation: isolate; display: grid; gap: 2px; margin-top: 18px; background: var(--ink); border: var(--edge); box-shadow: var(--stand); }
-  section + section .products { box-shadow: none; }
-  section + section .products::after { content: ""; position: absolute; z-index: -1; inset: 3px -9px -9px 3px; background: var(--hatch); }
   .product { display: block; position: relative; padding: 22px 24px; text-decoration: none; color: inherit; background: var(--surface); }
-  a.product:hover, a.product:focus-visible { z-index: 1; box-shadow: 0 0 0 2px var(--ink), 3px 3px 0 2px var(--signal); transform: translate(-2px, -2px); }
-  a.product:active { background: var(--ground); box-shadow: none; transform: none; }
+  a.product:hover, a.product:focus-visible { z-index: 1; box-shadow: 0 0 0 2px var(--ink), 3px 3px 0 2px var(--signal); }
+  a.product:active { background: var(--ground); box-shadow: 0 0 0 2px var(--ink); transform: translate(3px, 3px); }
   .product .pm { fill: currentColor; flex: none; align-self: center; }
   .product .top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
   .product .name { font-size: 20px; font-weight: 700; letter-spacing: -0.022em; }
@@ -178,38 +174,35 @@
 
   /* Movement. Everything is stepped, short and runs once; with reduced motion none of it exists
      and every part shows its end state.
-     - hover: a fill wipes in four steps, the text turns when the wipe is half way, the arrow
-       steps right, a card clacks up and down in two steps and its logo hops.
+     - hover: a fill wipes in from the left in one smooth move and the text turns when it is
+       half way, the arrow steps right, a card's shadow comes and goes smoothly and its logo hops.
      - scroll: when a section or the foot first comes into view the script below sets "in" on it.
        Its rule draws from the left, the ink square stamps in, then the block lands on its
        shadow. The "js" class is set in the head only where the observer exists, so without the
        script nothing waits in a start state. The top bar does not land: the mark already draws
        in at load, and one thing moves at a time. */
   @media (prefers-reduced-motion: no-preference) {
-    .lockup, .links a { transition: background-size 160ms steps(4), color 0s 80ms; }
+    .lockup, .links a { transition: background-size 180ms cubic-bezier(0.2, 0.7, 0.2, 1), color 0s 90ms; }
     .links a::after { transition: transform 120ms steps(3); }
-    .product { transition: transform 100ms steps(2), box-shadow 100ms steps(2); }
+    .product { transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
     a.product:hover .pm { animation: hop 180ms steps(1, end) 1; }
 
     .js section:not(.in)::after, .js footer:not(.in)::before { transform: scaleX(0); }
     .js section:not(.in) h2::after { transform: scale(0); }
     .js :not(.in) > .products, .js footer:not(.in) .foot { transform: translate(4px, 4px); box-shadow: none; }
-    .js section:not(.in) .products::after { transform: translate(-4px, -4px); }
     section.in::after, footer.in::before { animation: draw-rule 240ms steps(4) backwards; }
     .in h2::after { animation: stamp 80ms steps(2) 240ms backwards; }
     .in > .products, .in .foot { animation: land 120ms steps(2) 320ms backwards; }
-    .in .products::after { animation: land-hatch 120ms steps(2) 320ms backwards; }
     footer.in .foot { animation-delay: 240ms; }
   }
   @media (prefers-reduced-motion: reduce) {
-    a.product:hover, a.product:focus-visible { transform: none; }
+    a.product:active { transform: none; }
     .lang button:hover { padding: 0 14px; }
   }
   @keyframes hop { 0% { transform: translateY(-3px); } 50% { transform: translateY(-1px); } 100% { transform: none; } }
   @keyframes draw-rule { from { transform: scaleX(0); } }
   @keyframes stamp { from { transform: scale(0); } }
   @keyframes land { from { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--ink); } }
-  @keyframes land-hatch { from { transform: translate(-4px, -4px); } }
 </style>
 </head>
 <body>
