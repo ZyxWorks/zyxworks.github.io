@@ -5,7 +5,7 @@
 One page, listing the tools the studio built for its own work and gave away.
 Live at **[zyxworks.github.io](https://zyxworks.github.io/)**.
 
-![One file](https://img.shields.io/badge/files-1%20html%20%2B%203%20fonts-111111)
+![Few files](https://img.shields.io/badge/files-1%20html%20%2B%201%20css%20%2B%203%20fonts-111111)
 ![No build step](https://img.shields.io/badge/build%20step-none-666666)
 ![No dependencies](https://img.shields.io/badge/dependencies-0-666666)
 ![No external requests](https://img.shields.io/badge/external%20requests-0-666666)
@@ -24,7 +24,8 @@ index and the host's `robots.txt`.
 
 ## How it is built
 
-`index.html` plus three self-hosted `woff2` files (Atkinson Hyperlegible Next and Mono, OFL,
+`index.html`, the brand token sheet `zyx-tokens.css` (a verbatim copy from the Zyx repo, never
+edited here) and three self-hosted `woff2` files (Atkinson Hyperlegible Next and Mono, OFL,
 licences beside them). That is the whole site:
 no build step, no framework, no package manager, no Google Fonts request, nothing
 to run before deploying and nothing that can rot between deploys. GitHub Pages
