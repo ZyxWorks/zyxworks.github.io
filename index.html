@@ -34,8 +34,8 @@
 
   On top of that: the main blocks (top bar, card lists, foot) have a 3px outer edge and stand on a
   solid ink shadow. Sections are counted in mono. What moves,
-  moves in steps, once, and not at all with reduced motion: a rule draws, a block lands, a fill
-  wipes, an arrow steps. The page is complete without the script.
+  moves in steps, once, and not at all with reduced motion: a rule draws, a block lands, a cell
+  is pressed in, an arrow steps. The page is complete without the script.
 -->
 <!-- The brand values. zyx-tokens.css is a verbatim copy from the Zyx repo (its "make brand-tokens"
      overwrites it), so it is never edited here. It loads first; everything below reads var(--z-*). -->
@@ -94,13 +94,12 @@
      in both languages is written once. */
   .topbar { display: flex; align-items: stretch; min-height: 54px; background: var(--surface); border: var(--edge); box-shadow: var(--stand); }
   .lockup { flex: 1; display: flex; align-items: center; gap: 10px; padding: 0 16px; color: var(--ink); text-decoration: none; }
-  /* A hover fill is a second background layer that grows from the left in one smooth move, and
-     the text turns when it is half way. Direction, time and curve are the brand sheet's wipe
-     tokens, so one edit there turns every cell. With reduced motion the sheet sets the time to 0. */
-  .lockup { background: linear-gradient(var(--ground), var(--ground)) var(--z-wipe-pos) / var(--z-wipe-rest) no-repeat; }
-  .links a { background: var(--surface) linear-gradient(var(--ink), var(--ink)) var(--z-wipe-pos) / var(--z-wipe-rest) no-repeat; }
-  .lockup, .links a { transition: background-size var(--z-d-wipe) var(--z-ease-wipe), color 0s calc(var(--z-d-wipe) / 2); }
-  .lockup:hover, .links a:hover, .links a:active { background-size: var(--z-wipe-full); }
+  /* One hover for every control (brand sheet): the cell is pressed in, the hard inner ink shadow.
+     Nothing slides in. A press turns a link to ink at once. */
+  .links a { background: var(--surface); }
+  .lockup, .links a { transition: box-shadow var(--z-d-press) ease-out; }
+  .lockup:hover, .links a:hover { box-shadow: var(--z-shadow-in); }
+  .links a:active { background: var(--ink); box-shadow: none; }
   .lockup:focus-visible, .lang button:focus-visible, .links a:focus-visible { outline-color: currentColor; outline-offset: -6px; }
   .lockup .name { font-weight: var(--z-wm-weight); letter-spacing: var(--z-wm-track); font-size: 22px; }
   .lang { display: flex; font-family: var(--mono); font-size: var(--z-small); font-weight: 700; text-transform: uppercase; }
@@ -175,8 +174,8 @@
   .product .origin b { font-weight: 700; color: var(--ink); }
 
   /* The foot is one ruled block on the ink shadow: the links are cells with an ink line between
-     them, each ends in an arrow, and the copyright line closes the box. Pointing at a link wipes
-     its whole cell to ink and the arrow steps to the right. */
+     them, each ends in an arrow, and the copyright line closes the box. Pointing at a link presses
+     its whole cell in and the arrow steps to the right. */
   footer { position: relative; padding: 42px 0 76px; }
   .who { color: var(--muted); font-size: 14.5px; margin: 0 0 20px; max-width: 52ch; }
   .foot { display: grid; gap: var(--z-bw-rule); background: var(--ink); border: var(--edge); box-shadow: var(--stand); }
@@ -185,7 +184,7 @@
     display: flex; align-items: center; min-height: 48px; padding: 0 14px; color: var(--ink); text-decoration: none;
   }
   .links a::after { content: "\2192"; content: "\2192" / ""; margin-left: auto; padding-left: 10px; font-family: var(--mono); font-weight: 400; }
-  .links a:hover, .links a:active { color: var(--surface); }
+  .links a:active { color: var(--surface); }
   .links a:hover::after { transform: translateX(3px); }
   .copyright { padding: 10px 14px; background: var(--ground); font-family: var(--mono); font-size: 12px; color: var(--faint); }
   @media (max-width: 560px) { .links { grid-template-columns: 1fr; } }
