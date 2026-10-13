@@ -36,7 +36,7 @@ products themselves make: a page selling a tool that phones home to nobody shoul
 not phone home either.
 
 Design decisions live in comments inside `index.html`, next to the code they
-explain: why the signal yellow is not used here, how the language switch keeps
+explain: where the signal yellow shows (the cube mark and the shadow under a card you point at) and where it does not, how the language switch keeps
 both copies in step, why Zyx comes after the tools.
 
 ## A note on the robots policy
