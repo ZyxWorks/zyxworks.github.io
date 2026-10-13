@@ -7,9 +7,8 @@
 <meta name="description" content="Open source tools from our own work: MurmurFlow, local press-to-talk dictation, and Agent Office, a workspace for coding agents.">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#F4F4F4" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0D0D0D" media="(prefers-color-scheme: dark)">
-<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F4F4F4">
+<meta name="color-scheme" content="light">
 <meta property="og:title" content="ZyxWorks">
 <meta property="og:description" content="Open source tools from our own work.">
 <meta property="og:type" content="website">
@@ -23,8 +22,7 @@
   The open-source index. One file plus three fonts: no build step, no dependency, no external
   request, which is the same rule every product listed here keeps.
 
-  Brand is Zyx Textmarker: pure neutrals, light first and dark when the visitor's system asks for
-  it, Atkinson Hyperlegible Next and Mono, the cube mark. The signal yellow means "this needs a
+  Brand is Zyx Textmarker: pure neutrals, light only, Atkinson Hyperlegible Next and Mono, the cube mark. The signal yellow means "this needs a
   person" in the product, so on this page it is not a link colour, a badge or a border. The one
   place it shows is the panels of the cube mark. A press
   is shown in ink.
@@ -35,20 +33,13 @@
   @font-face { font-family: "Atkinson Hyperlegible Mono"; font-weight: 200 800; font-display: swap; src: url("fonts/atkinson-hyperlegible-mono-latin-wght-normal.woff2") format("woff2"); }
 
   :root {
-    color-scheme: light dark;
+    color-scheme: light;
     --ground: #f4f4f4; --surface: #ffffff; --line: #dcdcdc; --line-strong: #bbbbbb;
     --ink: #111111; --muted: #444444; --faint: #666666;
     --shadow: 4px 4px 0 rgba(0, 0, 0, 0.12);
     --sans: "Atkinson Hyperlegible Next", Verdana, system-ui, sans-serif;
     --mono: "Atkinson Hyperlegible Mono", ui-monospace, Menlo, monospace;
     --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --ground: #0d0d0d; --surface: #151515; --line: #2a2a2a; --line-strong: #404040;
-      --ink: #f2f2f2; --muted: #b3b3b3; --faint: #8f8f8f;
-      --shadow: 4px 4px 0 rgba(255, 255, 255, 0.1);
-    }
   }
   *, *::before, *::after { box-sizing: border-box; }
   html { background: var(--ground); -webkit-text-size-adjust: 100%; }
