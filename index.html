@@ -25,7 +25,8 @@
 
   Brand is Zyx Textmarker: pure neutrals, light first and dark when the visitor's system asks for
   it, Atkinson Hyperlegible Next and Mono, the cube mark. The signal yellow means "this needs a
-  person" in the product, so on this page it is not a link colour, a badge or a border. A press
+  person" in the product, so on this page it is not a link colour, a badge or a border. The one
+  place it shows is the panels of the cube mark. A press
   is shown in ink.
 -->
 <style>
@@ -59,8 +60,9 @@
   a { color: inherit; }
   :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 5px; }
 
-  /* The cube is one filled shape: outline, xyz axis and three open panels in a single path. One
-     draw-in at load, and no other motion. */
+  /* The cube is two paths: a yellow hexagon, and over it one filled shape in the text colour
+     (outline, xyz axis and three open panels), so the yellow shows through the panels. One
+     draw-in at load, and no other motion. The wipe sits on the svg, so it covers both paths. */
   .mk { fill: currentColor; flex: none; }
   @media (prefers-reduced-motion: no-preference) {
     .mk { animation: draw 560ms var(--ease) both; }
@@ -132,7 +134,7 @@
   <header>
     <div class="topbar">
       <a class="lockup" href="https://zyxworks.com">
-        <svg class="mk" viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill-rule="evenodd" d="M60 7.09L105.82 33.55V86.45L60 112.91L14.18 86.45V33.55ZM54.05 20.34L22.68 38.45V74.68L54.05 56.56ZM65.95 20.34V56.56L97.32 74.68V38.45ZM60 66.87L28.63 84.98L60 103.09L91.37 84.98Z"/></svg>
+        <svg class="mk" viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill="#FFD23C" d="M60 12L101.6 36V84L60 108L18.4 84V36Z"/><path fill-rule="evenodd" d="M60 7.09L105.82 33.55V86.45L60 112.91L14.18 86.45V33.55ZM53.6 20.6L22.68 38.45V74.16L53.6 56.3ZM66.4 20.6V56.3L97.32 74.16V38.45ZM60 67.39L29.08 85.24L60 103.09L90.92 85.24Z"/></svg>
         <span class="name">ZyxWorks</span>
       </a>
       <div class="lang" role="group" aria-label="Language / Sprache">
