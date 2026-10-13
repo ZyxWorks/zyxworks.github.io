@@ -14,14 +14,13 @@ Live at **[zyxworks.github.io](https://zyxworks.github.io/)**.
 
 | | |
 |---|---|
-| **[MurmurFlow](https://zyxworks.github.io/murmurflow/)** | Press-to-talk dictation that runs on your own machine. Hold a key, say it, let go, and the words land at your cursor in any app. macOS and Windows. [Source](https://github.com/ZyxWorks/murmurflow) |
+| **[MurmurFlow](https://zyxworks.github.io/murmurflow/)** | Press-to-talk dictation that runs on your own machine. Tap a key twice, say it, tap again, and the words land at your cursor in any app. macOS and Windows. [Source](https://github.com/ZyxWorks/murmurflow) |
 | **[Agent Office](https://zyxworks.github.io/agent-office/)** | A workspace for your coding agents, each in its own git worktree. You see at a glance which one waits for you. macOS and Linux. [Source](https://github.com/ZyxWorks/agent-office) |
 
 Both came out of the work on [Zyx](https://zyxworks.com).
 Each one keeps its own product page in its own repo under `docs/`, so a tool and
 the page selling it ship together and can never drift apart. This repo owns the
-index, nothing else. It used to own the host's `robots.txt` as well, because it
-used to serve the host root; see the note below for what the repo rename changed.
+index and the host's `robots.txt`.
 
 ## How it is built
 
@@ -36,12 +35,12 @@ products themselves make: a page selling a tool that phones home to nobody shoul
 not phone home either.
 
 Design decisions live in comments inside `index.html`, next to the code they
-explain: why the signal yellow is not used here, how the language switch keeps
+explain: where the signal yellow shows (the cube mark and the shadow under a card you point at) and where it does not, how the language switch keeps
 both copies in step, why Zyx comes after the tools.
 
 ## A note on the robots policy
 
-The site is deliberately not indexed yet, and both halves of that are on purpose:
+The site is deliberately not indexed, and both halves of that are on purpose:
 
 - `robots.txt` lets **Googlebot and Bingbot crawl**. Blocking a crawler cannot
   remove a URL from an index, it only freezes whatever is already in there.
@@ -49,13 +48,11 @@ The site is deliberately not indexed yet, and both halves of that are on purpose
   crawler has to be let in to read it.
 - everyone else, AI crawlers included, is disallowed on all paths.
 
-Lift this once there is a proper Impressum. **Any new page in this repo needs the
+**Any new page in this repo needs the
 same two tags**, or it becomes the one indexed page here.
 
-**This file is back at the host root.** A user site has to be the repo named
-`<owner>.github.io`, and under the personal account this repo was a project page
-whose `robots.txt` the host never read. Owned by the **ZyxWorks** organization it
-is that organization's user site, so `zyxworks.github.io/robots.txt` is served and
+**This file is at the host root.** This repo is the organization's
+user site, so `zyxworks.github.io/robots.txt` is served and
 the "everyone else, stay out" rule covers the host and its sibling project pages
 again (`/murmurflow`, `/agent-office`).
 

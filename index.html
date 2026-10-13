@@ -23,9 +23,10 @@
   request, which is the same rule every product listed here keeps.
 
   Brand is Zyx Textmarker: pure neutrals, light only, Atkinson Hyperlegible Next and Mono, the cube mark. The signal yellow means "this needs a
-  person" in the product, so on this page it is not a link colour, a badge or a border. The one
-  place it shows is the panels of the cube mark. A press
-  is shown in ink.
+  person" in the product, so on this page it is not a link colour, a badge or a border. It shows
+  in two places: the panels of the cube mark, and the hard shadow a card stands on while you
+  point at it or tab to it (the cards are the only calls to act here). The page reads as sections
+  through three greys (ground, white cards, one deeper step), not through heavy lines.
 -->
 <style>
   @font-face { font-family: "Atkinson Hyperlegible Next"; font-weight: 200 800; font-display: swap; src: url("fonts/atkinson-hyperlegible-next-latin-wght-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
@@ -34,15 +35,16 @@
 
   :root {
     color-scheme: light;
-    --ground: #f4f4f4; --surface: #ffffff; --line: #dcdcdc; --line-strong: #bbbbbb;
+    /* The three greys: the ground, white for a card, and one deeper step for the company section. */
+    --ground: #f4f4f4; --surface: #ffffff; --deep: #ececec; --signal: #ffd23c; --line: #dcdcdc; --line-strong: #bbbbbb;
     --ink: #111111; --muted: #444444; --faint: #666666;
-    --shadow: 3px 3px 0 var(--ink);
+    --shadow: 3px 3px 0 var(--signal);
     --sans: "Atkinson Hyperlegible Next", Verdana, system-ui, sans-serif;
     --mono: "Atkinson Hyperlegible Mono", ui-monospace, Menlo, monospace;
     --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   *, *::before, *::after { box-sizing: border-box; }
-  html { background: var(--ground); -webkit-text-size-adjust: 100%; }
+  html { background: var(--ground); -webkit-text-size-adjust: 100%; overflow-x: clip; }
   body {
     margin: 0; color: var(--ink); font-size: 17px; line-height: 1.6;
     font-family: var(--sans); -webkit-font-smoothing: antialiased;
@@ -87,6 +89,13 @@
   p.lead { color: var(--muted); font-size: 18px; margin: 20px 0 0; max-width: 50ch; }
 
   section { padding: 60px 0 0; }
+  /* The company section sits on the deeper grey, as wide as the window, so what is free and what
+     is sold read as two parts. The band is drawn behind the column, so the column never moves. */
+  section + section { margin-top: 64px; padding-bottom: 64px; position: relative; }
+  section + section::before {
+    content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: calc(50% - 50vw); width: 100vw;
+    background: var(--deep); border-top: 1px solid var(--line);
+  }
   h2 { font-size: 12.5px; font-weight: 700; color: var(--faint); margin: 0; }
 
   .products { display: grid; gap: 20px; margin-top: 16px; }
@@ -95,8 +104,10 @@
     background: var(--surface); border: 1px solid var(--ink);
     transition: border-color 180ms var(--ease), box-shadow 180ms var(--ease), transform 180ms var(--ease);
   }
-  a.product:hover { border-color: var(--ink); box-shadow: var(--shadow); transform: translate(-2px, -2px); }
-  @media (prefers-reduced-motion: reduce) { a.product:hover { transform: none; } }
+  a.product:hover, a.product:focus-visible { border-color: var(--ink); box-shadow: var(--shadow); transform: translate(-2px, -2px); }
+  a.product:active { box-shadow: none; transform: none; }
+  @media (prefers-reduced-motion: reduce) { a.product:hover, a.product:focus-visible { transform: none; } }
+  .product .pm { fill: currentColor; flex: none; align-self: center; }
   .product .top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
   .product .name { font-size: 20px; font-weight: 700; letter-spacing: -0.022em; }
   .product .tag {
@@ -110,7 +121,7 @@
   .product .origin { font-size: 13px; color: var(--faint); margin: 12px 0 0; }
   .product .origin b { font-weight: 700; color: var(--ink); }
 
-  footer { padding: 48px 0 72px; margin-top: 64px; border-top: 2px solid var(--line); }
+  footer { padding: 48px 0 72px; border-top: 1px solid var(--line); }
   footer a { color: var(--muted); text-underline-offset: 3px; }
   footer a:hover { color: var(--ink); }
   .links { display: flex; flex-wrap: wrap; gap: 4px 22px; font-size: 14.5px; margin-bottom: 20px; }
@@ -149,10 +160,10 @@
     <div class="products">
 
       <a class="product" href="https://zyxworks.github.io/murmurflow/">
-        <div class="top"><span class="name">MurmurFlow</span><span class="tag">macOS &middot; Windows</span></div>
-        <p data-lang="en">Hold a key, speak, let go. The words appear at your cursor, in whatever app you
+        <div class="top"><svg class="pm" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path fill="#FFD23C" d="M60 12L73.86 20L73.86 38L87.71 30L101.57 38L101.57 82L87.71 90L73.86 82L73.86 100L60 108L46.14 100L46.14 82L32.29 90L18.43 82L18.43 38L32.29 30L46.14 38L46.14 20Z"/><path fill-rule="evenodd" d="M60 7.09L75.96 16.3L75.96 31.88L87.71 25.09L105.82 35.55L105.82 84.45L87.71 94.91L75.96 88.12L75.96 103.7L60 112.91L44.04 103.7L44.04 88.12L32.29 94.91L14.18 84.45L14.18 35.55L32.29 25.09L44.04 31.88L44.04 16.3ZM60 16.91L67.46 21.21L67.46 98.79L60 103.09L52.54 98.79L52.54 21.21ZM80.26 39.21L87.71 34.91L97.32 40.45L97.32 79.55L87.71 85.09L80.26 80.79ZM39.74 39.21L39.74 80.79L32.29 85.09L22.68 79.55L22.68 40.45L32.29 34.91Z"/></svg><span class="name">MurmurFlow</span><span class="tag">macOS &middot; Windows</span></div>
+        <p data-lang="en">Tap a key twice, speak, tap again. The words appear at your cursor, in whatever app you
         are in. It transcribes on your own machine, so no copy of your voice leaves it.</p>
-        <p data-lang="de">Taste halten, sprechen, loslassen. Die Worte stehen an der Schreibmarke, in
+        <p data-lang="de">Taste zweimal tippen, sprechen, noch einmal tippen. Die Worte stehen an der Schreibmarke, in
         jeder App. Umgewandelt wird auf deinem eigenen Rechner, also verlässt keine Kopie deiner
         Stimme das Gerät.</p>
         <p class="origin" data-lang="en">Built while we made <b>Zyx</b>.</p>
@@ -160,7 +171,7 @@
       </a>
 
       <a class="product" href="https://zyxworks.github.io/agent-office/">
-        <div class="top"><span class="name">Agent Office</span><span class="tag">macOS &middot; Linux</span></div>
+        <div class="top"><svg class="pm" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path fill="#FFD23C" d="M60 18L80.78 30L80.78 54L101.57 66L101.57 90L80.78 102L60 90L39.22 102L18.43 90L18.43 66L39.22 54L39.22 30Z"/><path fill-rule="evenodd" d="M60 13.09L85.03 27.55L85.03 51.55L105.82 63.55L105.82 92.45L80.78 106.91L60 94.91L39.22 106.91L14.18 92.45L14.18 63.55L34.97 51.55L34.97 27.55ZM60 22.91L76.53 32.45L76.53 49.06L60 58.61L43.47 49.06L43.47 32.45ZM82.93 60.15L97.32 68.45L97.32 87.55L80.78 97.09L66.4 88.79L66.4 69.7ZM37.07 60.15L53.6 69.7L53.6 88.79L39.22 97.09L22.68 87.55L22.68 68.45Z"/></svg><span class="name">Agent Office</span><span class="tag">macOS &middot; Linux</span></div>
         <p data-lang="en">A workspace for your coding agents. Each agent has its own desk and its own
         git worktree, and you see at a glance which one waits for you. One command installs,
         starts and updates it.</p>
@@ -186,14 +197,14 @@
       <a class="product" data-lang="en" href="https://zyxworks.com/en/">
         <div class="top"><span class="name">Zyx</span><span class="tag">private beta</span></div>
         <p>Ask your company. Zyx answers from your company's own mail, files and apps, with the
-        source on every answer. It runs on your own Mac, and every risky change waits for a
+        source on every answer. It runs on your own server, and every risky change waits for a
         person's approval.</p>
         <p class="origin">Closed during the private beta. Made by <b>ZyxWorks</b>.</p>
       </a>
       <a class="product" data-lang="de" href="https://zyxworks.com/">
         <div class="top"><span class="name">Zyx</span><span class="tag">private Beta</span></div>
         <p>Frag deine Firma. Zyx antwortet aus den E-Mails, Dateien und Apps deiner Firma, mit
-        der Quelle an jeder Antwort. Es läuft auf deinem eigenen Mac, und jede riskante Änderung
+        der Quelle an jeder Antwort. Es läuft auf deinem eigenen Server, und jede riskante Änderung
         wartet auf die Freigabe eines Menschen.</p>
         <p class="origin">In der privaten Beta geschlossen. Gebaut von <b>ZyxWorks</b>.</p>
       </a>
