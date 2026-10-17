@@ -5,7 +5,7 @@
 One page, listing the tools the studio built for its own work and gave away.
 Live at **[zyxworks.github.io](https://zyxworks.github.io/)**.
 
-![Few files](https://img.shields.io/badge/files-1%20html%20%2B%201%20css%20%2B%203%20fonts-111111)
+![Few files](https://img.shields.io/badge/files-1%20html%20%2B%20the%20ui%20copy-111111)
 ![No build step](https://img.shields.io/badge/build%20step-none-666666)
 ![No dependencies](https://img.shields.io/badge/dependencies-0-666666)
 ![No external requests](https://img.shields.io/badge/external%20requests-0-666666)
@@ -24,19 +24,24 @@ index and the host's `robots.txt`.
 
 ## How it is built
 
-`index.html`, the brand token sheet `zyx-tokens.css` (a verbatim copy from the Zyx repo, never
-edited here) and three self-hosted `woff2` files (Atkinson Hyperlegible Next and Mono, OFL,
-licences beside them). That is the whole site:
-no build step, no framework, no package manager, no Google Fonts request, nothing
-to run before deploying and nothing that can rot between deploys. GitHub Pages
-serves the repo root on every push to `main`.
+`index.html` and `ui/`, a copy of the ZyxWorks UI library
+`@zyxworks/ui` (repo `ZyxWorks/ui`): its tokens, its parts as plain CSS and the
+self-hosted `woff2` files (Atkinson Hyperlegible Next and Mono, OFL, licences beside them). That
+is the whole site: no build step, no framework, no package manager, no Google Fonts request,
+nothing to run before deploying and nothing that can rot between deploys. GitHub Pages serves
+the repo root on every push to `main`.
+
+The look comes from the library, never from this repo. `ui/` is written by
+`npm run ship -- <this repo> --static ui` in the library repo; never edit it by hand. A change
+to the look starts there. `index.html` keeps only what belongs to this page: its layout, the
+hero, the language switch and the scroll-in.
 
 The same rule holds on the two product pages, and it is the same promise the
 products themselves make: a page selling a tool that phones home to nobody should
 not phone home either.
 
 Design decisions live in comments inside `index.html`, next to the code they
-explain: where the signal yellow shows (the cube mark and the shadow under a card you point at) and where it does not, how the language switch keeps
+explain: where the signal yellow shows (only in the cube marks) and where it does not, how the language switch keeps
 both copies in step, why Zyx comes after the tools.
 
 ## A note on the robots policy
