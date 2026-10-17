@@ -41,8 +41,6 @@
 <link rel="stylesheet" href="ui/zyx/zyx-ui.css">
 <script src="ui/reveal.js" defer></script>
 <style>
-  /* The bands run the full window width; clip keeps them from scrolling sideways. */
-  html { overflow-x: clip; }
   body { margin: 0; font-size: 17px; line-height: 1.6; }
   .shell { max-width: var(--z-prose); margin: 0 auto; padding: 0 24px; }
   a { color: inherit; }
@@ -65,13 +63,9 @@
 
   /* Every section opens with a 2px ink rule as wide as the window (zyx-rule-bleed) and a numbered
      mono label (zyx-eyebrow-n). The company section also sits on the deeper grey, so what is free
-     and what is sold read as two parts. */
+     and what is sold read as two parts (zyx-band). */
   section { margin-top: 64px; padding-top: 16px; }
   section + section { padding-bottom: 68px; }
-  section + section::after {
-    content: ""; position: absolute; z-index: -1; top: calc(var(--z-bw-rule) * -1); bottom: 0;
-    left: calc(50% - 50vw); width: 100vw; background: var(--z-raised);
-  }
 
   /* A list of cards is one ruled grid that stands on a solid ink shadow (zyx-grid + zyx-stand), and
      each card is a link cell (zyx-cell): pointing at it presses it in, and its logo hops (zyx-hop). */
@@ -79,8 +73,6 @@
   .product .pm { align-self: center; }
   .product .top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
   .product .name { font-size: 20px; font-weight: var(--z-dw); letter-spacing: var(--z-dt); }
-  /* zyx-ui-allow: a tag here names platforms (macOS), so it keeps the case it is written in; the library chip has no keep-case form */
-  .product .zyx-chip { text-transform: none; letter-spacing: 0.02em; }
   .product p { color: var(--z-muted); font-size: 15.5px; margin: 8px 0 0; max-width: 58ch; }
   /* Where the tool came FROM. Small and faint so it reads as a provenance line rather than as a
      second paragraph. No <a> here - the whole card is already a link, and a link inside a link is
@@ -129,7 +121,7 @@
     <div class="zyx-grid zyx-grid-wide zyx-stand">
 
       <a class="product zyx-cell" href="https://zyxworks.github.io/murmurflow/">
-        <div class="top"><svg class="pm zyx-mark zyx-hop" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path class="zyx-mark-panels" d="M60 12L73.86 20L73.86 38L87.71 30L101.57 38L101.57 82L87.71 90L73.86 82L73.86 100L60 108L46.14 100L46.14 82L32.29 90L18.43 82L18.43 38L32.29 30L46.14 38L46.14 20Z"/><path class="zyx-mark-lines" fill-rule="evenodd" d="M60 7.09L75.96 16.3L75.96 31.88L87.71 25.09L105.82 35.55L105.82 84.45L87.71 94.91L75.96 88.12L75.96 103.7L60 112.91L44.04 103.7L44.04 88.12L32.29 94.91L14.18 84.45L14.18 35.55L32.29 25.09L44.04 31.88L44.04 16.3ZM60 16.91L67.46 21.21L67.46 98.79L60 103.09L52.54 98.79L52.54 21.21ZM80.26 39.21L87.71 34.91L97.32 40.45L97.32 79.55L87.71 85.09L80.26 80.79ZM39.74 39.21L39.74 80.79L32.29 85.09L22.68 79.55L22.68 40.45L32.29 34.91Z"/></svg><span class="name">MurmurFlow</span><span class="zyx-chip">macOS &middot; Windows</span></div>
+        <div class="top"><svg class="pm zyx-mark zyx-hop" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path class="zyx-mark-panels" d="M60 12L73.86 20L73.86 38L87.71 30L101.57 38L101.57 82L87.71 90L73.86 82L73.86 100L60 108L46.14 100L46.14 82L32.29 90L18.43 82L18.43 38L32.29 30L46.14 38L46.14 20Z"/><path class="zyx-mark-lines" fill-rule="evenodd" d="M60 7.09L75.96 16.3L75.96 31.88L87.71 25.09L105.82 35.55L105.82 84.45L87.71 94.91L75.96 88.12L75.96 103.7L60 112.91L44.04 103.7L44.04 88.12L32.29 94.91L14.18 84.45L14.18 35.55L32.29 25.09L44.04 31.88L44.04 16.3ZM60 16.91L67.46 21.21L67.46 98.79L60 103.09L52.54 98.79L52.54 21.21ZM80.26 39.21L87.71 34.91L97.32 40.45L97.32 79.55L87.71 85.09L80.26 80.79ZM39.74 39.21L39.74 80.79L32.29 85.09L22.68 79.55L22.68 40.45L32.29 34.91Z"/></svg><span class="name">MurmurFlow</span><span class="zyx-chip zyx-chip-case">macOS &middot; Windows</span></div>
         <p data-lang="en">Tap a key twice, speak, tap again. The words appear at your cursor, in whatever app you
         are in. It transcribes on your own machine, so no copy of your voice leaves it.</p>
         <p data-lang="de">Taste zweimal tippen, sprechen, noch einmal tippen. Die Worte stehen an der Schreibmarke, in
@@ -140,7 +132,7 @@
       </a>
 
       <a class="product zyx-cell" href="https://zyxworks.github.io/agent-office/">
-        <div class="top"><svg class="pm zyx-mark zyx-hop" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path class="zyx-mark-panels" d="M60 18L80.78 30L80.78 54L101.57 66L101.57 90L80.78 102L60 90L39.22 102L18.43 90L18.43 66L39.22 54L39.22 30Z"/><path class="zyx-mark-lines" fill-rule="evenodd" d="M60 13.09L85.03 27.55L85.03 51.55L105.82 63.55L105.82 92.45L80.78 106.91L60 94.91L39.22 106.91L14.18 92.45L14.18 63.55L34.97 51.55L34.97 27.55ZM60 22.91L76.53 32.45L76.53 49.06L60 58.61L43.47 49.06L43.47 32.45ZM82.93 60.15L97.32 68.45L97.32 87.55L80.78 97.09L66.4 88.79L66.4 69.7ZM37.07 60.15L53.6 69.7L53.6 88.79L39.22 97.09L22.68 87.55L22.68 68.45Z"/></svg><span class="name">Agent Office</span><span class="zyx-chip">macOS &middot; Linux</span></div>
+        <div class="top"><svg class="pm zyx-mark zyx-hop" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path class="zyx-mark-panels" d="M60 18L80.78 30L80.78 54L101.57 66L101.57 90L80.78 102L60 90L39.22 102L18.43 90L18.43 66L39.22 54L39.22 30Z"/><path class="zyx-mark-lines" fill-rule="evenodd" d="M60 13.09L85.03 27.55L85.03 51.55L105.82 63.55L105.82 92.45L80.78 106.91L60 94.91L39.22 106.91L14.18 92.45L14.18 63.55L34.97 51.55L34.97 27.55ZM60 22.91L76.53 32.45L76.53 49.06L60 58.61L43.47 49.06L43.47 32.45ZM82.93 60.15L97.32 68.45L97.32 87.55L80.78 97.09L66.4 88.79L66.4 69.7ZM37.07 60.15L53.6 69.7L53.6 88.79L39.22 97.09L22.68 87.55L22.68 68.45Z"/></svg><span class="name">Agent Office</span><span class="zyx-chip zyx-chip-case">macOS &middot; Linux</span></div>
         <p data-lang="en">A workspace for your coding agents. Each agent has its own desk and its own
         git worktree, and you see at a glance which one waits for you. One command installs,
         starts and updates it.</p>
@@ -158,20 +150,20 @@
        MurmurFlow and met a sales pitch first would be right to leave. Same .product card as above,
        so it sits at the same weight as the tools. Every fact here is from the site's own copy:
        private beta, one process, three stages, 90 days, free, a person leads. -->
-  <section class="zyx-rule zyx-rule-bleed" data-zyx-reveal>
+  <section class="zyx-rule zyx-rule-bleed zyx-band" data-zyx-reveal>
     <h2 class="zyx-eyebrow zyx-eyebrow-n" data-lang="en"><span>What we make for companies</span></h2>
     <h2 class="zyx-eyebrow zyx-eyebrow-n" data-lang="de"><span>Was wir für Firmen bauen</span></h2>
     <div class="zyx-grid zyx-grid-wide zyx-stand">
 
       <a class="product zyx-cell" data-lang="en" href="https://zyxworks.com/en/">
-        <div class="top"><span class="name">Zyx</span><span class="zyx-chip">private beta</span></div>
+        <div class="top"><span class="name">Zyx</span><span class="zyx-chip zyx-chip-case">private beta</span></div>
         <p>Ask your company. Zyx answers from your company's own mail, files and apps, with the
         source on every answer. It runs on your own server, and every risky change waits for a
         person's approval.</p>
         <p class="origin">Not open source. Made by <b>ZyxWorks</b>.</p>
       </a>
       <a class="product zyx-cell" data-lang="de" href="https://zyxworks.com/">
-        <div class="top"><span class="name">Zyx</span><span class="zyx-chip">private Beta</span></div>
+        <div class="top"><span class="name">Zyx</span><span class="zyx-chip zyx-chip-case">private Beta</span></div>
         <p>Frag deine Firma. Zyx antwortet aus den E-Mails, Dateien und Apps deiner Firma, mit
         der Quelle an jeder Antwort. Es läuft auf deinem eigenen Server, und jede riskante Änderung
         wartet auf die Freigabe eines Menschen.</p>
@@ -179,14 +171,14 @@
       </a>
 
       <a class="product zyx-cell" data-lang="en" href="https://zyxworks.com/en/#setup">
-        <div class="top"><span class="name">The setup</span><span class="zyx-chip">90 days</span></div>
+        <div class="top"><span class="name">The setup</span><span class="zyx-chip zyx-chip-case">90 days</span></div>
         <p>One process. Three stages. 90 days. A person leads it on site: audit, evals,
         deployment. Each stage is done before the next one starts. The beta is free and by
         application.</p>
         <p class="origin">Led by a person. <b>Zyx</b> gathers the evidence and counts.</p>
       </a>
       <a class="product zyx-cell" data-lang="de" href="https://zyxworks.com/#setup">
-        <div class="top"><span class="name">Die Einrichtung</span><span class="zyx-chip">90 Tage</span></div>
+        <div class="top"><span class="name">Die Einrichtung</span><span class="zyx-chip zyx-chip-case">90 Tage</span></div>
         <p>Ein Ablauf. Drei Schritte. 90 Tage. Ein Mensch leitet sie vor Ort: Audit, Evals,
         Deployment. Jeder Schritt ist fertig, bevor der nächste beginnt. Die Beta ist kostenlos
         und nur auf Bewerbung.</p>
