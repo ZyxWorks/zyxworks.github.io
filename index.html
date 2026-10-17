@@ -17,16 +17,16 @@
      Lift this once there is a proper Impressum. Any new page needs the same two tags. -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="ai-content-declaration" content="noai, noimageai">
-<script>try{if(localStorage.getItem("lang")==="de")document.documentElement.lang="de"}catch(e){}if("IntersectionObserver"in window)document.documentElement.classList.add("js")</script>
+<script>try{if(localStorage.getItem("lang")==="de")document.documentElement.lang="de"}catch(e){}</script>
 <!--
   The open-source index. One page, a copy of the ZyxWorks UI library and nothing else: no build step, no
   dependency, no external request, which is the same rule every product listed here keeps.
 
-  The look comes from @zyxworks/ui (repo ZyxWorks/ui): tokens, fonts and every shared part (cell,
-  grid, stand, eyebrow, rule, chip, crop marks, arrow). ui/ is a copy written by
-  `npm run ship -- <this repo> --static ui` in the library repo; never edit it by hand. Below is
-  only what belongs to this page: its layout, the hero, the full-width section bands, the
-  language switch and the scroll-in. Every colour, edge, shadow and time reads var(--z-*).
+  The look comes from @zyxworks/ui (repo ZyxWorks/ui): tokens, fonts and every shared part (mark,
+  bar, language pair, cell, grid, stand, eyebrow, rule, chip, crop marks, arrow, the scroll-in in
+  ui/reveal.js). ui/ is a copy written by `npm run ship -- <this repo> --static ui` in the library
+  repo; never edit it by hand. Below is only what belongs to this page: its layout, the hero, the
+  full-width section bands and the language switch. Every colour, edge, shadow and time reads var(--z-*).
 
   Light only: no data-theme is set, so the dark values never apply. The signal yellow means "this
   needs a person" in the product, so on this page it is not a link colour, a badge or a border; it
@@ -39,56 +39,34 @@
 -->
 <link rel="stylesheet" href="ui/zyx/fonts.css">
 <link rel="stylesheet" href="ui/zyx/zyx-ui.css">
+<script src="ui/reveal.js" defer></script>
 <style>
-  *, *::before, *::after { box-sizing: border-box; }
-  /* The section rules and bands run the full window width; clip keeps them from scrolling sideways. */
+  /* The bands run the full window width; clip keeps them from scrolling sideways. */
   html { overflow-x: clip; }
   body { margin: 0; font-size: 17px; line-height: 1.6; }
   .shell { max-width: var(--z-prose); margin: 0 auto; padding: 0 24px; }
   a { color: inherit; }
 
-  /* The cube is two paths: a yellow hexagon, and over it one filled shape in the text colour
-     (outline, xyz axis and three open panels), so the yellow shows through the panels. One
-     wipe-in at load (the one mark motion the brand allows; the library has no class for it yet),
-     and no other motion. The wipe sits on the svg, so it covers both paths. */
-  .mk { fill: currentColor; flex: none; }
-  .mk path:first-child, .pm path:first-child { fill: var(--z-icon-fill); }
-  @media (prefers-reduced-motion: no-preference) {
-    .mk { animation: draw var(--z-d3) var(--z-ease) both; }
-  }
-  @keyframes draw { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
-
-  /* The top bar (zyx-stand) is one ruled row of cells (zyx-cell): the lockup fills what is left,
-     the two languages are square ink cells at its end, and an ink line stands between them.
+  /* The top bar (zyx-bar on zyx-stand) is one ruled row of cells: the lockup fills what is left,
+     the language pair (zyx-lang) sits at its end. The mark wipes in once (zyx-mark-draw).
 
      EN/DE: <html lang> is the ONLY state - CSS hides the other language, so both copies live in
      the markup and stay in step. Translated text carries data-lang; anything that reads the same
      in both languages is written once. */
-  .topbar { display: flex; align-items: stretch; min-height: 54px; }
-  .lockup { flex: 1; display: flex; align-items: center; gap: 10px; padding: 0 16px; text-decoration: none; }
-  .lockup .name { font-weight: var(--z-wm-weight); letter-spacing: var(--z-wm-track); font-size: 22px; }
-  .lang { display: flex; font-family: var(--z-font-mono); font-size: var(--z-small); font-weight: 700; text-transform: uppercase; }
-  .lang button {
-    /* A button does not inherit text-transform: the UA sheet sets it to none. A cell is 52px wide
-       and as tall as the bar, which is enough for a thumb. */
-    appearance: none; min-width: 52px; margin: 0; padding: 0 14px; border: 0; border-left: var(--z-bw-rule) solid var(--z-ink);
-    border-radius: var(--z-r-ctl); background: var(--z-surface); font: inherit; text-transform: inherit;
-  }
+  .lockup { flex: 1; padding: 0 16px; }
+  .lockup .name { font-size: 22px; }
   html[lang="en"] [data-lang="de"], html[lang="de"] [data-lang="en"] { display: none; }
 
-  /* The one print ornament: crop marks at the four corners of the head (zyx-crop). Local change:
-     a little more room under the lead than the library's even 14px. */
-  header { margin-top: 72px; }
-  header.zyx-crop::before { inset: -18px -14px -24px; }
+  /* The one print ornament: crop marks at the four corners of the head (zyx-crop), with a little
+     more room under the lead than the library's even 14px. */
+  header { margin-top: 72px; --zyx-crop-inset: -18px -14px -24px; }
   h1 { font-size: clamp(32px, 6vw, 46px); line-height: 1.1; letter-spacing: var(--z-dt); font-weight: var(--z-dw); margin: 44px 0 0; max-width: 18ch; }
   p.lead { color: var(--z-muted); font-size: 18px; margin: 20px 0 0; max-width: 50ch; }
 
-  /* Every section opens with a 2px ink rule (zyx-rule) and a numbered mono label (zyx-eyebrow-n).
-     Local change: the rule runs as wide as the window, not the column, so the column never moves.
-     The company section also sits on the deeper grey, so what is free and what is sold read as
-     two parts. */
+  /* Every section opens with a 2px ink rule as wide as the window (zyx-rule-bleed) and a numbered
+     mono label (zyx-eyebrow-n). The company section also sits on the deeper grey, so what is free
+     and what is sold read as two parts. */
   section { margin-top: 64px; padding-top: 16px; }
-  section.zyx-rule::before { left: calc(50% - 50vw); right: auto; width: 100vw; }
   section + section { padding-bottom: 68px; }
   section + section::after {
     content: ""; position: absolute; z-index: -1; top: calc(var(--z-bw-rule) * -1); bottom: 0;
@@ -97,12 +75,11 @@
 
   /* A list of cards is one ruled grid that stands on a solid ink shadow (zyx-grid + zyx-stand), and
      each card is a link cell (zyx-cell): pointing at it presses it in, and its logo hops (zyx-hop). */
-  .products { margin-top: 18px; }
   .product { display: block; padding: 22px 24px; text-decoration: none; }
-  .product .pm { fill: currentColor; flex: none; align-self: center; }
+  .product .pm { align-self: center; }
   .product .top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
   .product .name { font-size: 20px; font-weight: var(--z-dw); letter-spacing: var(--z-dt); }
-  /* Local change: a tag here names platforms (macOS), so it keeps the case it is written in. */
+  /* zyx-ui-allow: a tag here names platforms (macOS), so it keeps the case it is written in; the library chip has no keep-case form */
   .product .zyx-chip { text-transform: none; letter-spacing: 0.02em; }
   .product p { color: var(--z-muted); font-size: 15.5px; margin: 8px 0 0; max-width: 58ch; }
   /* Where the tool came FROM. Small and faint so it reads as a provenance line rather than as a
@@ -111,42 +88,30 @@
   .product .origin { font-size: 13px; color: var(--z-faint); margin: 12px 0 0; }
   .product .origin b { font-weight: 700; color: var(--z-ink); }
 
-  /* The foot is one ruled grid on the ink shadow: the links are cells with an ink line between
-     them, each ends in an arrow that steps right under the pointer (zyx-arrow), and the copyright
-     line closes the box. */
+  /* The foot is one ruled grid on the ink shadow: the links are cells on their own (zyx-cell-box)
+     with an ink line between them, each ends in an arrow that steps right under the pointer
+     (zyx-arrow), and the copyright line closes the box. */
   footer { padding: 40px 0 76px; }
   .who { color: var(--z-muted); font-size: 14.5px; margin: 0 0 20px; max-width: 52ch; }
   .foot { grid-template-columns: repeat(3, minmax(0, 1fr)); font-size: 14.5px; font-weight: 700; }
-  .foot .zyx-cell { display: flex; align-items: center; min-height: 48px; padding: 0 14px; text-decoration: none; }
-  .foot .zyx-arrow { margin-left: auto; padding-left: 10px; font-weight: 400; }
   .copyright { grid-column: 1 / -1; padding: 10px 14px; background-color: var(--z-ground); font-family: var(--z-font-mono); font-size: 12px; font-weight: 400; color: var(--z-faint); }
   @media (max-width: 560px) { .foot { grid-template-columns: minmax(0, 1fr); } }
-
-  /* Scroll-in, once. When a section or the foot first comes into view the script below sets "in"
-     on it: its rule draws from the left (zyx-rule), the ink square stamps in (zyx-square) and the
-     block lands on its shadow (zyx-land). Only the library's motions are used; until "in" is set
-     they wait, and setting it starts them. The "js" class is set in the head only where the
-     observer exists, so without the script nothing waits. With reduced motion none of it exists. */
-  @media (prefers-reduced-motion: no-preference) {
-    .js .zyx-rule:not(.in)::before { animation: none; scale: 0 1; }
-    .js section:not(.in) .zyx-eyebrow-n::after { scale: 0; }
-    .js section.in .zyx-eyebrow-n::after { animation: zyx-square var(--z-d1) step-end var(--z-d2) 1 backwards; }
-    .js .in .zyx-stand { animation: zyx-land var(--z-d2) step-end var(--z-d2) 1 backwards; }
-  }
 </style>
 </head>
 <body>
 
 <div class="shell">
   <header class="zyx-crop">
-    <div class="topbar zyx-stand">
-      <a class="lockup zyx-cell" href="https://zyxworks.com">
-        <svg class="mk" viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path fill="#FFD23C" d="M60 12L101.6 36V84L60 108L18.4 84V36Z"/><path fill-rule="evenodd" d="M60 7.09L105.82 33.55V86.45L60 112.91L14.18 86.45V33.55ZM53.6 20.6L22.68 38.45V74.16L53.6 56.3ZM66.4 20.6V56.3L97.32 74.16V38.45ZM60 67.39L29.08 85.24L60 103.09L90.92 85.24Z"/></svg>
+    <div class="zyx-bar zyx-stand">
+      <a class="lockup zyx-lockup zyx-cell" href="https://zyxworks.com">
+        <svg class="zyx-mark zyx-mark-draw" viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path class="zyx-mark-panels" d="M60 12L101.6 36V84L60 108L18.4 84V36Z"/><path class="zyx-mark-lines" fill-rule="evenodd" d="M60 7.09L105.82 33.55V86.45L60 112.91L14.18 86.45V33.55ZM53.6 20.6L22.68 38.45V74.16L53.6 56.3ZM66.4 20.6V56.3L97.32 74.16V38.45ZM60 67.39L29.08 85.24L60 103.09L90.92 85.24Z"/></svg>
         <span class="name">ZyxWorks</span>
       </a>
-      <div class="lang" role="group" aria-label="Language / Sprache">
-        <button type="button" class="zyx-cell zyx-cell-ink" data-set="en" aria-pressed="true">en</button>
-        <button type="button" class="zyx-cell zyx-cell-ink" data-set="de" aria-pressed="false">de</button>
+      <div class="zyx-bar-end">
+        <div class="zyx-lang" role="group" aria-label="Language / Sprache">
+          <button type="button" class="zyx-cell zyx-cell-ink" data-set="en" aria-pressed="true">en</button>
+          <button type="button" class="zyx-cell zyx-cell-ink" data-set="de" aria-pressed="false">de</button>
+        </div>
       </div>
     </div>
     <h1 data-lang="en">Tools from our own work.</h1>
@@ -158,13 +123,13 @@
   </header>
 
   <main>
-  <section class="zyx-rule">
+  <section class="zyx-rule zyx-rule-bleed" data-zyx-reveal>
     <h2 class="zyx-eyebrow zyx-eyebrow-n" data-lang="en"><span>Open source</span></h2>
     <h2 class="zyx-eyebrow zyx-eyebrow-n" data-lang="de"><span>Open Source</span></h2>
-    <div class="products zyx-grid zyx-grid-wide zyx-stand">
+    <div class="zyx-grid zyx-grid-wide zyx-stand">
 
       <a class="product zyx-cell" href="https://zyxworks.github.io/murmurflow/">
-        <div class="top"><svg class="pm zyx-hop" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path fill="#FFD23C" d="M60 12L73.86 20L73.86 38L87.71 30L101.57 38L101.57 82L87.71 90L73.86 82L73.86 100L60 108L46.14 100L46.14 82L32.29 90L18.43 82L18.43 38L32.29 30L46.14 38L46.14 20Z"/><path fill-rule="evenodd" d="M60 7.09L75.96 16.3L75.96 31.88L87.71 25.09L105.82 35.55L105.82 84.45L87.71 94.91L75.96 88.12L75.96 103.7L60 112.91L44.04 103.7L44.04 88.12L32.29 94.91L14.18 84.45L14.18 35.55L32.29 25.09L44.04 31.88L44.04 16.3ZM60 16.91L67.46 21.21L67.46 98.79L60 103.09L52.54 98.79L52.54 21.21ZM80.26 39.21L87.71 34.91L97.32 40.45L97.32 79.55L87.71 85.09L80.26 80.79ZM39.74 39.21L39.74 80.79L32.29 85.09L22.68 79.55L22.68 40.45L32.29 34.91Z"/></svg><span class="name">MurmurFlow</span><span class="zyx-chip">macOS &middot; Windows</span></div>
+        <div class="top"><svg class="pm zyx-mark zyx-hop" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path class="zyx-mark-panels" d="M60 12L73.86 20L73.86 38L87.71 30L101.57 38L101.57 82L87.71 90L73.86 82L73.86 100L60 108L46.14 100L46.14 82L32.29 90L18.43 82L18.43 38L32.29 30L46.14 38L46.14 20Z"/><path class="zyx-mark-lines" fill-rule="evenodd" d="M60 7.09L75.96 16.3L75.96 31.88L87.71 25.09L105.82 35.55L105.82 84.45L87.71 94.91L75.96 88.12L75.96 103.7L60 112.91L44.04 103.7L44.04 88.12L32.29 94.91L14.18 84.45L14.18 35.55L32.29 25.09L44.04 31.88L44.04 16.3ZM60 16.91L67.46 21.21L67.46 98.79L60 103.09L52.54 98.79L52.54 21.21ZM80.26 39.21L87.71 34.91L97.32 40.45L97.32 79.55L87.71 85.09L80.26 80.79ZM39.74 39.21L39.74 80.79L32.29 85.09L22.68 79.55L22.68 40.45L32.29 34.91Z"/></svg><span class="name">MurmurFlow</span><span class="zyx-chip">macOS &middot; Windows</span></div>
         <p data-lang="en">Tap a key twice, speak, tap again. The words appear at your cursor, in whatever app you
         are in. It transcribes on your own machine, so no copy of your voice leaves it.</p>
         <p data-lang="de">Taste zweimal tippen, sprechen, noch einmal tippen. Die Worte stehen an der Schreibmarke, in
@@ -175,7 +140,7 @@
       </a>
 
       <a class="product zyx-cell" href="https://zyxworks.github.io/agent-office/">
-        <div class="top"><svg class="pm zyx-hop" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path fill="#FFD23C" d="M60 18L80.78 30L80.78 54L101.57 66L101.57 90L80.78 102L60 90L39.22 102L18.43 90L18.43 66L39.22 54L39.22 30Z"/><path fill-rule="evenodd" d="M60 13.09L85.03 27.55L85.03 51.55L105.82 63.55L105.82 92.45L80.78 106.91L60 94.91L39.22 106.91L14.18 92.45L14.18 63.55L34.97 51.55L34.97 27.55ZM60 22.91L76.53 32.45L76.53 49.06L60 58.61L43.47 49.06L43.47 32.45ZM82.93 60.15L97.32 68.45L97.32 87.55L80.78 97.09L66.4 88.79L66.4 69.7ZM37.07 60.15L53.6 69.7L53.6 88.79L39.22 97.09L22.68 87.55L22.68 68.45Z"/></svg><span class="name">Agent Office</span><span class="zyx-chip">macOS &middot; Linux</span></div>
+        <div class="top"><svg class="pm zyx-mark zyx-hop" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path class="zyx-mark-panels" d="M60 18L80.78 30L80.78 54L101.57 66L101.57 90L80.78 102L60 90L39.22 102L18.43 90L18.43 66L39.22 54L39.22 30Z"/><path class="zyx-mark-lines" fill-rule="evenodd" d="M60 13.09L85.03 27.55L85.03 51.55L105.82 63.55L105.82 92.45L80.78 106.91L60 94.91L39.22 106.91L14.18 92.45L14.18 63.55L34.97 51.55L34.97 27.55ZM60 22.91L76.53 32.45L76.53 49.06L60 58.61L43.47 49.06L43.47 32.45ZM82.93 60.15L97.32 68.45L97.32 87.55L80.78 97.09L66.4 88.79L66.4 69.7ZM37.07 60.15L53.6 69.7L53.6 88.79L39.22 97.09L22.68 87.55L22.68 68.45Z"/></svg><span class="name">Agent Office</span><span class="zyx-chip">macOS &middot; Linux</span></div>
         <p data-lang="en">A workspace for your coding agents. Each agent has its own desk and its own
         git worktree, and you see at a glance which one waits for you. One command installs,
         starts and updates it.</p>
@@ -193,10 +158,10 @@
        MurmurFlow and met a sales pitch first would be right to leave. Same .product card as above,
        so it sits at the same weight as the tools. Every fact here is from the site's own copy:
        private beta, one process, three stages, 90 days, free, a person leads. -->
-  <section class="zyx-rule">
+  <section class="zyx-rule zyx-rule-bleed" data-zyx-reveal>
     <h2 class="zyx-eyebrow zyx-eyebrow-n" data-lang="en"><span>What we make for companies</span></h2>
     <h2 class="zyx-eyebrow zyx-eyebrow-n" data-lang="de"><span>Was wir für Firmen bauen</span></h2>
-    <div class="products zyx-grid zyx-grid-wide zyx-stand">
+    <div class="zyx-grid zyx-grid-wide zyx-stand">
 
       <a class="product zyx-cell" data-lang="en" href="https://zyxworks.com/en/">
         <div class="top"><span class="name">Zyx</span><span class="zyx-chip">private beta</span></div>
@@ -233,16 +198,16 @@
   </main>
 </div>
 
-<footer class="zyx-rule">
+<footer class="zyx-rule" data-zyx-reveal>
   <div class="shell">
     <p class="who" data-lang="en">ZyxWorks makes Zyx and the open tools above.</p>
     <p class="who" data-lang="de">ZyxWorks baut Zyx und die offenen Werkzeuge oben.</p>
     <div class="foot zyx-grid zyx-grid-wide zyx-stand">
-      <a class="zyx-cell" href="https://zyxworks.com/en/" data-lang="en">zyxworks.com<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
-      <a class="zyx-cell" href="https://zyxworks.com/" data-lang="de">zyxworks.com<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
-      <a class="zyx-cell" href="https://github.com/ZyxWorks">GitHub<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
-      <a class="zyx-cell" href="https://zyxworks.com/en/legal/" data-lang="en">Imprint<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
-      <a class="zyx-cell" href="https://zyxworks.com/legal/" data-lang="de">Impressum<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="zyx-cell zyx-cell-box" href="https://zyxworks.com/en/" data-lang="en">zyxworks.com<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="zyx-cell zyx-cell-box" href="https://zyxworks.com/" data-lang="de">zyxworks.com<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="zyx-cell zyx-cell-box" href="https://github.com/ZyxWorks">GitHub<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="zyx-cell zyx-cell-box" href="https://zyxworks.com/en/legal/" data-lang="en">Imprint<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
+      <a class="zyx-cell zyx-cell-box" href="https://zyxworks.com/legal/" data-lang="de">Impressum<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
       <div class="copyright">&copy; <span id="year">2026</span> ZyxWorks</div>
     </div>
   </div>
@@ -254,7 +219,7 @@
   // The language switch. <html lang> carries the state (CSS does the showing), localStorage
   // remembers it, and the head sets it before first paint so a returning visitor sees no flash.
   (function () {
-    var buttons = document.querySelectorAll(".lang button");
+    var buttons = document.querySelectorAll(".zyx-lang button");
     function set(lang, store) {
       document.documentElement.lang = lang;
       buttons.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.set === lang); });
@@ -265,20 +230,6 @@
     });
     set(document.documentElement.lang === "de" ? "de" : "en");
   })();
-
-  // Scroll-in, once: a section or the foot gets "in" when it first shows, and the CSS does the
-  // rest. Only runs where the head has set "js", so the two always agree.
-  if (document.documentElement.classList.contains("js")) {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.15 });
-    // It starts after the mark has drawn in (560ms), so the two never move at the same time.
-    setTimeout(function () {
-      document.querySelectorAll("section, footer").forEach(function (el) { io.observe(el); });
-    }, 560);
-  }
 </script>
 
 </body>
