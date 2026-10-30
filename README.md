@@ -15,7 +15,7 @@ Live at **[zyxworks.github.io](https://zyxworks.github.io/)**.
 | | |
 |---|---|
 | **[Zyx](https://zyxworks.com)** | Answers from your company's own mail, files and apps, with the source. Every risky change waits for a person. Private beta, not open source. |
-| **[MurmurFlow](https://zyxworks.github.io/murmurflow/)** | Dictation that runs on your own machine. Tap a key twice, speak, and the words land at your cursor. macOS and Windows. Free, open source. [Source](https://github.com/ZyxWorks/murmurflow) |
+| **[MurmurFlow](https://zyxworks.github.io/murmurflow/)** | Dictation that runs on your own machine. Tap a key twice, speak, tap again, and the words land at your cursor. macOS and Windows. Free, open source. [Source](https://github.com/ZyxWorks/murmurflow) |
 | **[Agent Office](https://zyxworks.github.io/agent-office/)** | A workspace for your coding agents, each in its own git worktree. You see which one waits for you. macOS and Linux. Free, open source. [Source](https://github.com/ZyxWorks/agent-office) |
 
 Each tool keeps its own product page in its own repo under `docs/`, so a tool and its page ship together. This repo owns the org page, the host's favicon and the host's `robots.txt`.
