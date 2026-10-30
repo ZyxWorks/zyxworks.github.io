@@ -22,7 +22,7 @@ Each tool keeps its own product page in its own repo under `docs/`, so a tool an
 
 ## How it is built
 
-`index.html` and `ui/`, a copy of the ZyxWorks UI library `@zyxworks/ui` 1.0: its tokens, its parts as plain CSS, the axis marks and the self-hosted Geist and Geist Mono faces (SIL Open Font License, licence texts beside them in `ui/fonts/`). No build step, no framework, no package manager, no font CDN. GitHub Pages serves the repo root on every push to `main`.
+`index.html` and `ui/`, a copy of the ZyxWorks UI library `@zyxworks/ui` 1.1: its tokens, its parts as plain CSS, the axis marks and the self-hosted Geist and Geist Mono faces (SIL Open Font License, licence texts beside them in `ui/fonts/`). No build step, no framework, no package manager, no font CDN. GitHub Pages serves the repo root on every push to `main`.
 
 The look is the minimal ZyxWorks look, the same parts and tokens as the Zyx app: black, white and greys, 1 px lines, Geist at 400 and 500, the axis mark as the one bold thing. Light only.
 
@@ -34,11 +34,11 @@ npm run ship -- <this repo> --static ui
 
 The ship script adds and overwrites files but never deletes them, so files that an older version shipped and the new one does not must be removed by hand.
 
-`index.html` keeps only what belongs to this page: its layout, the language switch, and a few additions to the card part that the library does not have yet (marked `zyx-ui-allow-block` with the reason). Every colour, edge, size and time reads a `var(--z-*)` token.
+`index.html` keeps only what belongs to this page: its layout, the language switch, and the hero mark size, which the library does not have yet (marked `zyx-ui-allow-block` with the reason). Every colour, edge, size and time reads a `var(--z-*)` token.
 
 English and German: both copies are in the markup, `<html lang>` decides which one shows. `?lang=de` or the EN/DE links switch it, and the choice is remembered. Without JavaScript the page is complete in English.
 
-`favicon.svg` is the library's 16 px favicon drawing. `favicon.ico` (16, 32 and 48 px) is rendered from it, because the library ships no `.ico`. Both sit at the host root, so the sibling pages get the axis too when they set no icon of their own.
+`favicon.svg` and `favicon.ico` are the library's own files (`ui/brand/`, 1.1), copied to the host root so the sibling pages get the axis too when they set no icon of their own.
 
 ## Check before a PR
 
@@ -46,7 +46,7 @@ There is no CI. Run these from this repo, with the library repo checked out besi
 
 ```sh
 node ../zyxworks-ui/bin/zyx-ui.mjs lint index.html                     # tokens only, no class from before 1.0
-node ../zyxworks-ui/bin/zyx-ui.mjs check . --static ui --expect 1.0.0  # the copy is 1.0
+node ../zyxworks-ui/bin/zyx-ui.mjs check . --static ui --expect 1.1.0  # the copy is 1.1
 ```
 
 Then look at the page in a browser at 1440, 1024, 390 and 320 px, in English and German (`?lang=de`): no side scroll, the keyboard reaches every link with a visible focus ring, and it reads complete with JavaScript off.

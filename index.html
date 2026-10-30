@@ -32,8 +32,8 @@
 
   ui/ is written by `npm run ship -- <this repo> --static ui` in the library repo; never edit it by
   hand. A change to the look starts there. Below is only what belongs to this page: the language
-  hide rule, the space around the cards, and a few additions to the card that the library does not
-  have yet (listed as library gaps in the rebrand notes). Every colour, edge, size and time reads
+  hide rule, the stacking inside a card and the hero mark size, which the library does not have yet
+  (a library gap in the rebrand notes). Every colour, edge, size and time reads
   var(--z-*).
 
   Light only: no data-theme is set, so the dark values never apply. The axis mark in the hero is the
@@ -46,37 +46,20 @@
   body { margin: 0; background: var(--z-bg); color: var(--z-text); }
   html[lang="en"] [data-lang="de"], html[lang="de"] [data-lang="en"] { display: none; }
 
-  /* Three cards in one row, one column on a phone. auto-fit (not the library's auto-fill) so three
-     cards share the row and leave no empty fourth track. The card lines are short, so German words
-     are not split by syllable here (two-line blurbs with three hyphens read badly). */
-  .products { hyphens: manual; }
-  .products ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); margin: 0; padding: 0; list-style: none; }
+  /* The three cards: zyx-cards-fit shares the row, zyx-card-lg is the site card, a.zyx-card is the
+     link look (1.1). The page only stacks the parts inside a card and sets the list. */
+  .products ul { margin: 0; padding: 0; list-style: none; }
   .products li { display: flex; }
-
-  /* zyx-ui-allow-block: library gap, a card that is one link (RB-9 notes); remove when the library ships it.
-     A card that is one link. Library gap: zyx-card has no link look, no hover or press state and no
-     site-sized title. Hover is the hover fill, press the selected fill, nothing moves (spec 07). */
-  a.zyx-card {
-    display: flex; flex-direction: column; gap: 16px; width: 100%; padding: 24px;
-    color: inherit; text-decoration: none; transition: background-color var(--z-d-fast) var(--z-ease);
-  }
-  a.zyx-card:hover { background: var(--z-hover); }
-  a.zyx-card:active { background: var(--z-selected); }
-  /* Library gap: zyx-mark has round caps but no round joins; the Agent Office prompt needs them. */
-  .zyx-card .zyx-mark { stroke-linejoin: round; }
+  .products li > a { display: flex; flex-direction: column; gap: 16px; width: 100%; }
   .card-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
-  a.zyx-card .zyx-card-title { font-size: var(--z-t-section); letter-spacing: var(--z-track-title); }
-  a.zyx-card .zyx-card-sub { margin: 0; color: var(--z-text-2); font-size: var(--z-t-read); line-height: var(--z-lead-read); }
-  /* zyx-ui-allow-end */
+  .products p { margin: 0; }
+  .card-meta { margin-top: auto; color: var(--z-text-3); font-size: var(--z-t-meta); }
   /* zyx-ui-allow-block: library gap, no hero size for the mark (RB-9 notes); remove when the library ships zyx-mark-hero.
      The hero axis is the one bold thing (Decided 5): it has to outrank the 32 px card marks clearly.
      Spec 03 draws the big mark at 72 px with stroke 2 on the 48 grid (3 px); this keeps that ratio. */
   .zyx-hero-mark { width: 112px; height: 112px; stroke-width: 4.5px; }
   @media (max-width: 640px) { .zyx-hero-mark { width: 80px; height: 80px; stroke-width: 3.25px; } }
   /* zyx-ui-allow-end */
-  /* Two legal links stay together: on a narrow phone they wrap as one row under the copyright. */
-  .legal-links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
-  .card-meta { margin-top: auto; color: var(--z-text-3); font-size: var(--z-t-meta); }
 </style>
 </head>
 <body>
@@ -102,9 +85,9 @@
   <section class="products" aria-labelledby="products-t">
     <div class="zyx-wrap">
       <h2 class="zyx-sr" id="products-t"><span data-lang="en">Products</span><span data-lang="de">Produkte</span></h2>
-      <ul class="zyx-cards">
+      <ul class="zyx-cards zyx-cards-fit">
         <li>
-          <a class="zyx-card" href="https://zyxworks.com/en/" data-href-de="https://zyxworks.com/">
+          <a class="zyx-card zyx-card-lg" href="https://zyxworks.com/en/" data-href-de="https://zyxworks.com/">
             <svg class="zyx-mark zyx-mark-lg" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 26V6M24 26L6.7 36M24 26L41.3 36"/></svg>
             <div class="card-head"><h3 class="zyx-card-title">Zyx</h3><span class="zyx-tag"><span data-lang="en">Private beta</span><span data-lang="de">Private Beta</span></span></div>
             <p class="zyx-card-sub"><span data-lang="en">Answers from your company's own mail, files and apps, with the source. Every risky change waits for a person.</span><span data-lang="de">Antworten aus den E-Mails, Dateien und Apps deiner Firma, mit Quelle. Jede riskante Änderung wartet auf einen Menschen.</span></p>
@@ -112,7 +95,7 @@
           </a>
         </li>
         <li>
-          <a class="zyx-card" href="https://zyxworks.github.io/murmurflow/">
+          <a class="zyx-card zyx-card-lg" href="https://zyxworks.github.io/murmurflow/">
             <svg class="zyx-mark zyx-mark-lg" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 18v12M24 9v30M34 15v18"/></svg>
             <div class="card-head"><h3 class="zyx-card-title">MurmurFlow</h3><span class="zyx-tag">macOS · Windows</span></div>
             <p class="zyx-card-sub"><span data-lang="en">Dictation that runs on your own machine. Tap a key twice, speak, tap again, and the words land at your cursor.</span><span data-lang="de">Diktieren, das auf deinem eigenen Rechner läuft. Taste zweimal tippen, sprechen, noch einmal tippen, und die Worte stehen an der Schreibmarke.</span></p>
@@ -120,7 +103,7 @@
           </a>
         </li>
         <li>
-          <a class="zyx-card" href="https://zyxworks.github.io/agent-office/">
+          <a class="zyx-card zyx-card-lg" href="https://zyxworks.github.io/agent-office/">
             <svg class="zyx-mark zyx-mark-lg" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 13l11 11-11 11M24 36h16"/></svg>
             <div class="card-head"><h3 class="zyx-card-title">Agent Office</h3><span class="zyx-tag">macOS · Linux</span></div>
             <p class="zyx-card-sub"><span data-lang="en">A workspace for your coding agents, each in its own git worktree. You see which one waits for you.</span><span data-lang="de">Ein Arbeitsplatz für deine Coding-Agenten, jeder im eigenen Git-Worktree. Du siehst, welcher auf dich wartet.</span></p>
@@ -138,7 +121,7 @@
       <div class="zyx-site-foot-brand"><span class="zyx-lockup"><svg class="zyx-mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 26V6M24 26L6.7 36M24 26L41.3 36"/></svg><span class="zyx-lockup-word">ZyxWorks</span></span></div>
       <div><h2>Links</h2><ul><li><a href="https://zyxworks.com/en/" data-href-de="https://zyxworks.com/">zyxworks.com</a></li><li><a href="https://github.com/ZyxWorks">GitHub</a></li></ul></div>
     </div>
-    <div class="zyx-site-foot-legal"><span>© <span id="year">2026</span> ZyxWorks</span><span class="legal-links"><a href="https://zyxworks.com/en/legal/#imprint" data-href-de="https://zyxworks.com/legal/#imprint"><span data-lang="en">Legal notice</span><span data-lang="de">Impressum</span></a><a href="https://zyxworks.com/en/legal/#privacy" data-href-de="https://zyxworks.com/legal/#privacy"><span data-lang="en">Privacy</span><span data-lang="de">Datenschutz</span></a></span></div>
+    <div class="zyx-site-foot-legal"><span>© <span id="year">2026</span> ZyxWorks</span><a href="https://zyxworks.com/en/legal/#imprint" data-href-de="https://zyxworks.com/legal/#imprint"><span data-lang="en">Legal notice</span><span data-lang="de">Impressum</span></a><a href="https://zyxworks.com/en/legal/#privacy" data-href-de="https://zyxworks.com/legal/#privacy"><span data-lang="en">Privacy</span><span data-lang="de">Datenschutz</span></a></div>
   </div>
 </footer>
 
