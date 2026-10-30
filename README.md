@@ -1,76 +1,70 @@
 # zyxworks.github.io
 
-### The open source index for [ZyxWorks](https://zyxworks.com).
+### The org page of [ZyxWorks](https://zyxworks.com).
 
-One page, listing the tools the studio built for its own work and gave away.
+One page: the ZyxWorks mark, one line about the studio, and three cards for what we make.
 Live at **[zyxworks.github.io](https://zyxworks.github.io/)**.
 
 ![Few files](https://img.shields.io/badge/files-1%20html%20%2B%20the%20ui%20copy-111111)
-![No build step](https://img.shields.io/badge/build%20step-none-666666)
-![No dependencies](https://img.shields.io/badge/dependencies-0-666666)
-![No external requests](https://img.shields.io/badge/external%20requests-0-666666)
+![No build step](https://img.shields.io/badge/build%20step-none-555555)
+![No dependencies](https://img.shields.io/badge/dependencies-0-555555)
+![No external requests](https://img.shields.io/badge/external%20requests-0-555555)
 
-## What is listed here
+## What is on it
 
 | | |
 |---|---|
-| **[MurmurFlow](https://zyxworks.github.io/murmurflow/)** | Press-to-talk dictation that runs on your own machine. Tap a key twice, say it, tap again, and the words land at your cursor in any app. macOS and Windows. [Source](https://github.com/ZyxWorks/murmurflow) |
-| **[Agent Office](https://zyxworks.github.io/agent-office/)** | A workspace for your coding agents, each in its own git worktree. You see at a glance which one waits for you. macOS and Linux. [Source](https://github.com/ZyxWorks/agent-office) |
+| **[Zyx](https://zyxworks.com)** | Answers from your company's own mail, files and apps, with the source. Every risky change waits for a person. Private beta, not open source. |
+| **[MurmurFlow](https://zyxworks.github.io/murmurflow/)** | Dictation that runs on your own machine. Tap a key twice, speak, and the words land at your cursor. macOS and Windows. Free, open source. [Source](https://github.com/ZyxWorks/murmurflow) |
+| **[Agent Office](https://zyxworks.github.io/agent-office/)** | A workspace for your coding agents, each in its own git worktree. You see which one waits for you. macOS and Linux. Free, open source. [Source](https://github.com/ZyxWorks/agent-office) |
 
-Both came out of the work on [Zyx](https://zyxworks.com).
-Each one keeps its own product page in its own repo under `docs/`, so a tool and
-the page selling it ship together and can never drift apart. This repo owns the
-index and the host's `robots.txt`.
+Each tool keeps its own product page in its own repo under `docs/`, so a tool and its page ship together. This repo owns the org page, the host's favicon and the host's `robots.txt`.
 
 ## How it is built
 
-`index.html` and `ui/`, a copy of the ZyxWorks UI library
-`@zyxworks/ui` (repo `ZyxWorks/ui`): its tokens, its parts as plain CSS and the
-self-hosted `woff2` files (Atkinson Hyperlegible Next and Mono, OFL, licences beside them). That
-is the whole site: no build step, no framework, no package manager, no Google Fonts request,
-nothing to run before deploying and nothing that can rot between deploys. GitHub Pages serves
-the repo root on every push to `main`.
+`index.html` and `ui/`, a copy of the ZyxWorks UI library `@zyxworks/ui` 1.0: its tokens, its parts as plain CSS, the axis marks and the self-hosted Geist and Geist Mono faces (SIL Open Font License, licence texts beside them in `ui/fonts/`). No build step, no framework, no package manager, no font CDN. GitHub Pages serves the repo root on every push to `main`.
 
-The look comes from the library, never from this repo. `ui/` is written by
-`npm run ship -- <this repo> --static ui` in the library repo; never edit it by hand. A change
-to the look starts there. `index.html` keeps only what belongs to this page: its layout, the
-hero, the language switch and the scroll-in.
+The look is the minimal ZyxWorks look, the same parts and tokens as the Zyx app: black, white and greys, 1 px lines, Geist at 400 and 500, the axis mark as the one bold thing. Light only.
 
-The same rule holds on the two product pages, and it is the same promise the
-products themselves make: a page selling a tool that phones home to nobody should
-not phone home either.
+The look comes from the library, never from this repo. `ui/` is written by the ship script in the library repo; never edit it by hand:
 
-Design decisions live in comments inside `index.html`, next to the code they
-explain: where the signal yellow shows (only in the cube marks) and where it does not, how the language switch keeps
-both copies in step, why Zyx comes after the tools.
+```sh
+npm run ship -- <this repo> --static ui
+```
+
+The ship script adds and overwrites files but never deletes them, so files that an older version shipped and the new one does not must be removed by hand.
+
+`index.html` keeps only what belongs to this page: its layout, the language switch, and a few additions to the card part that the library does not have yet (marked `zyx-ui-allow-block` with the reason). Every colour, edge, size and time reads a `var(--z-*)` token.
+
+English and German: both copies are in the markup, `<html lang>` decides which one shows. `?lang=de` or the EN/DE links switch it, and the choice is remembered. Without JavaScript the page is complete in English.
+
+`favicon.svg` is the library's 16 px favicon drawing. `favicon.ico` (16, 32 and 48 px) is rendered from it, because the library ships no `.ico`. Both sit at the host root, so the sibling pages get the axis too when they set no icon of their own.
+
+## Check before a PR
+
+There is no CI. Run these from this repo, with the library repo checked out beside it:
+
+```sh
+node ../zyxworks-ui/bin/zyx-ui.mjs lint index.html                     # tokens only, no class from before 1.0
+node ../zyxworks-ui/bin/zyx-ui.mjs check . --static ui --expect 1.0.0  # the copy is 1.0
+```
+
+Then look at the page in a browser at 1440, 1024, 390 and 320 px, in English and German (`?lang=de`): no side scroll, the keyboard reaches every link with a visible focus ring, and it reads complete with JavaScript off.
 
 ## A note on the robots policy
 
 The site is deliberately not indexed, and both halves of that are on purpose:
 
-- `robots.txt` lets **Googlebot and Bingbot crawl**. Blocking a crawler cannot
-  remove a URL from an index, it only freezes whatever is already in there.
-- the `noindex` meta tag in the HTML is what actually removes the page, and a
-  crawler has to be let in to read it.
+- `robots.txt` lets **Googlebot and Bingbot crawl**. Blocking a crawler cannot remove a URL from an index, it only freezes whatever is already in there.
+- the `noindex` meta tag in the HTML is what actually removes the page, and a crawler has to be let in to read it.
 - everyone else, AI crawlers included, is disallowed on all paths.
 
-**Any new page in this repo needs the
-same two tags**, or it becomes the one indexed page here.
+**Any new page in this repo needs the same two tags**, or it becomes the one indexed page here.
 
-**This file is at the host root.** This repo is the organization's
-user site, so `zyxworks.github.io/robots.txt` is served and
-the "everyone else, stay out" rule covers the host and its sibling project pages
-again (`/murmurflow`, `/agent-office`).
+**This file is at the host root.** This repo is the organization's user site, so `zyxworks.github.io/robots.txt` is served and the "everyone else, stay out" rule covers the host and its sibling project pages too (`/murmurflow`, `/agent-office`).
 
-## Where this comes from
+## Links
 
-**[ZyxWorks](https://zyxworks.com)** makes Zyx. These are the things we built for
-ourselves and gave away.
+**ZyxWorks:** [zyxworks.com](https://zyxworks.com) · [GitHub](https://github.com/ZyxWorks)
 
-**Tools:** [MurmurFlow](https://zyxworks.github.io/murmurflow/) ·
-[Agent Office](https://zyxworks.github.io/agent-office/)
-
-**ZyxWorks:** [Zyx, in private beta](https://zyxworks.com) ·
-[GitHub](https://github.com/ZyxWorks)
-
-**Legal:** [imprint and privacy](https://zyxworks.com/legal/)
+**Legal:** [Impressum](https://zyxworks.com/legal/#imprint) · [Datenschutz](https://zyxworks.com/legal/#privacy)
