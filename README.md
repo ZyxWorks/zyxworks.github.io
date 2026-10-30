@@ -1,6 +1,6 @@
 # zyxworks.github.io
 
-### The org page of [ZyxWorks](https://zyxworks.com/en/).
+### The org page of [ZyxWorks](https://github.com/ZyxWorks), the engineering practice that builds Zyx and the open tools.
 
 One page: the ZyxWorks mark, one line about the studio, and three cards for what we make.
 Live at **[zyxworks.github.io](https://zyxworks.github.io/)**.
@@ -14,7 +14,7 @@ Live at **[zyxworks.github.io](https://zyxworks.github.io/)**.
 
 | | |
 |---|---|
-| **[Zyx](https://zyxworks.com/en/)** | Answers from your company's own mail, files and apps, with the source. Every risky change waits for a person. Private beta, not open source. |
+| **[Zyx](https://zyx.works/en/)** | Our product. Ask your company. On your own server. Answers from your company's own mail, files and apps, with the source. Every risky change waits for a person. Private beta, not open source. |
 | **[MurmurFlow](https://zyxworks.github.io/murmurflow/)** | Dictation that runs on your own machine. Tap a key twice, speak, tap again, and the words land at your cursor. macOS and Windows. Free, open source. [Source](https://github.com/ZyxWorks/murmurflow) |
 | **[Agent Office](https://zyxworks.github.io/agent-office/)** | A workspace for your coding agents, each in its own git worktree. You see which one waits for you. macOS and Linux. Free, open source. [Source](https://github.com/ZyxWorks/agent-office) |
 
@@ -65,6 +65,8 @@ The site is deliberately not indexed, and both halves of that are on purpose:
 
 ## Links
 
-**ZyxWorks:** [zyxworks.com](https://zyxworks.com/en/) · [GitHub](https://github.com/ZyxWorks)
+**Zyx, our product:** [zyx.works](https://zyx.works/en/) · **ZyxWorks:** [GitHub](https://github.com/ZyxWorks)
 
-**Legal:** [Imprint](https://zyxworks.com/en/legal/#imprint) · [Privacy](https://zyxworks.com/en/legal/#privacy)
+Made by ZyxWorks.
+
+**Legal:** [Imprint](https://zyx.works/en/legal/#imprint) · [Privacy](https://zyx.works/en/legal/#privacy)
