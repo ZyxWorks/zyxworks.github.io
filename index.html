@@ -4,227 +4,155 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ZyxWorks</title>
-<meta name="description" content="Open source tools from our own work: MurmurFlow, local press-to-talk dictation, and Agent Office, a workspace for coding agents.">
-<link rel="icon" href="favicon.ico" sizes="any">
+<meta name="description" content="We build Zyx, and the tools we use to make it: MurmurFlow, local dictation, and Agent Office, a workspace for coding agents.">
+<link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#F4F4F4">
+<meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light">
 <meta property="og:title" content="ZyxWorks">
-<meta property="og:description" content="Open source tools from our own work.">
+<meta property="og:description" content="We build Zyx, and the tools we use to make it.">
 <meta property="og:type" content="website">
 <!-- Not listed anywhere: a visitor gets here by typing the URL. "noindex" is what actually
      removes the page from a search index; robots.txt only stops the crawl. Both are in place.
-     Lift this once there is a proper Impressum. Any new page needs the same two tags. -->
+     Lifting it is the owner's call. Any new page needs the same two tags. -->
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="ai-content-declaration" content="noai, noimageai">
-<script>try{if(localStorage.getItem("lang")==="de")document.documentElement.lang="de"}catch(e){}</script>
+<script>
+  // EN/DE: <html lang> is the only state. ?lang= wins, then the saved choice, else English.
+  // It runs before first paint, so a returning visitor sees no flash of the other language.
+  (function () {
+    var q = new URLSearchParams(location.search).get("lang"), s = null;
+    try { s = localStorage.getItem("lang"); } catch (e) {}
+    document.documentElement.lang = q === "de" || q === "en" ? q : s === "de" ? "de" : "en";
+  })();
+</script>
 <!--
-  The open-source index. One page, a copy of the ZyxWorks UI library and nothing else: no build step, no
-  dependency, no external request, which is the same rule every product listed here keeps.
+  The ZyxWorks org page. One page, a copy of @zyxworks/ui and nothing else: no build step, no
+  dependency, no external request.
 
-  The look comes from @zyxworks/ui (repo ZyxWorks/ui): tokens, fonts and every shared part (mark,
-  bar, language pair, cell, grid, stand, eyebrow, rule, chip, crop marks, arrow, the scroll-in in
-  ui/reveal.js). ui/ is a copy written by `npm run ship -- <this repo> --static ui` in the library
-  repo; never edit it by hand. Below is only what belongs to this page: its layout, the hero, the
-  full-width section bands and the language switch. Every colour, edge, shadow and time reads var(--z-*).
+  ui/ is written by `npm run ship -- <this repo> --static ui` in the library repo; never edit it by
+  hand. A change to the look starts there. Below is only what belongs to this page: the language
+  hide rule, the stacking inside a card and the hero mark size, which the library does not have yet
+  (a library gap in the rebrand notes). Every colour, edge, size and time reads
+  var(--z-*).
 
-  Light only: no data-theme is set, so the dark values never apply. The signal yellow means "this
-  needs a person" in the product, so on this page it is not a link colour, a badge or a border; it
-  shows only in the panels of the cube marks.
-
-  The look is "hard print": a 2px ink rule opens every section, every group of siblings (the top
-  bar, a list of cards, the foot links) is a ruled grid with no gap in it, and the main blocks stand
-  on a solid ink shadow. One hover for every control: the cell is pressed in. What moves, moves in
-  steps, once, and not at all with reduced motion. The page is complete without the script.
+  Light only: no data-theme is set, so the dark values never apply. The axis mark in the hero is the
+  one bold thing. The page has nothing to sell, so it has no filled button.
 -->
 <link rel="stylesheet" href="ui/zyx/fonts.css">
 <link rel="stylesheet" href="ui/zyx/zyx-ui.css">
 <script src="ui/reveal.js" defer></script>
 <style>
-  body { margin: 0; font-size: 17px; line-height: 1.6; }
-  .shell { max-width: var(--z-prose); margin: 0 auto; padding: 0 24px; }
-  a { color: inherit; }
-
-  /* The top bar (zyx-bar on zyx-stand) is one ruled row of cells: the lockup fills what is left,
-     the language pair (zyx-lang) sits at its end. The mark wipes in once (zyx-mark-draw).
-
-     EN/DE: <html lang> is the ONLY state - CSS hides the other language, so both copies live in
-     the markup and stay in step. Translated text carries data-lang; anything that reads the same
-     in both languages is written once. */
-  .lockup { flex: 1; padding: 0 16px; }
-  .lockup .name { font-size: 22px; }
+  body { margin: 0; background: var(--z-bg); color: var(--z-text); }
   html[lang="en"] [data-lang="de"], html[lang="de"] [data-lang="en"] { display: none; }
 
-  /* The one print ornament: crop marks at the four corners of the head (zyx-crop), with a little
-     more room under the lead than the library's even 14px. */
-  header { margin-top: 72px; --zyx-crop-inset: -18px -14px -24px; }
-  h1 { font-size: clamp(32px, 6vw, 46px); line-height: 1.1; letter-spacing: var(--z-dt); font-weight: var(--z-dw); margin: 44px 0 0; max-width: 18ch; }
-  p.lead { color: var(--z-muted); font-size: 18px; margin: 20px 0 0; max-width: 50ch; }
-
-  /* Every section opens with a 2px ink rule as wide as the window (zyx-rule-bleed) and a numbered
-     mono label (zyx-eyebrow-n). The company section also sits on the deeper grey, so what is free
-     and what is sold read as two parts (zyx-band). */
-  section { margin-top: 64px; padding-top: 16px; }
-  section + section { padding-bottom: 68px; }
-
-  /* A list of cards is one ruled grid that stands on a solid ink shadow (zyx-grid + zyx-stand), and
-     each card is a link cell (zyx-cell): pointing at it presses it in, and its logo hops (zyx-hop). */
-  .product { display: block; padding: 22px 24px; text-decoration: none; }
-  .product .pm { align-self: center; }
-  .product .top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-  .product .name { font-size: 20px; font-weight: var(--z-dw); letter-spacing: var(--z-dt); }
-  .product p { color: var(--z-muted); font-size: 15.5px; margin: 8px 0 0; max-width: 58ch; }
-  /* Where the tool came FROM. Small and faint so it reads as a provenance line rather than as a
-     second paragraph. No <a> here - the whole card is already a link, and a link inside a link is
-     invalid HTML that browsers resolve differently. */
-  .product .origin { font-size: 13px; color: var(--z-faint); margin: 12px 0 0; }
-  .product .origin b { font-weight: 700; color: var(--z-ink); }
-
-  /* The foot is one ruled grid on the ink shadow: the links are cells on their own (zyx-cell-box)
-     with an ink line between them, each ends in an arrow that steps right under the pointer
-     (zyx-arrow), and the copyright line closes the box. */
-  footer { padding: 40px 0 76px; }
-  .who { color: var(--z-muted); font-size: 14.5px; margin: 0 0 20px; max-width: 52ch; }
-  .foot { grid-template-columns: repeat(3, minmax(0, 1fr)); font-size: 14.5px; font-weight: 700; }
-  .copyright { grid-column: 1 / -1; padding: 10px 14px; background-color: var(--z-ground); font-family: var(--z-font-mono); font-size: 12px; font-weight: 400; color: var(--z-faint); }
-  @media (max-width: 560px) { .foot { grid-template-columns: minmax(0, 1fr); } }
+  /* The three cards: zyx-cards-fit shares the row, zyx-card-lg is the site card, a.zyx-card is the
+     link look (1.1). The page only stacks the parts inside a card and sets the list. */
+  .products ul { margin: 0; padding: 0; list-style: none; }
+  .products li { display: flex; }
+  .products li > a { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+  .card-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .products p { margin: 0; }
+  .products .card-meta { margin-top: auto; color: var(--z-text-3); font-size: var(--z-t-meta); }
+  /* zyx-ui-allow-block: library gap, no hero size for the mark (RB-9 notes); remove when the library ships zyx-mark-hero.
+     The hero axis is the one bold thing (Decided 5): it has to outrank the 32 px card marks clearly.
+     Spec 03 draws the big mark at 72 px with stroke 2 on the 48 grid (3 px); this keeps that ratio. */
+  .zyx-hero-mark { width: 112px; height: 112px; stroke-width: 4.5px; }
+  @media (max-width: 640px) { .zyx-hero-mark { width: 80px; height: 80px; stroke-width: 3.25px; } }
+  /* zyx-ui-allow-end */
 </style>
 </head>
 <body>
+<a class="zyx-skip" href="#main"><span data-lang="en">Skip to content</span><span data-lang="de">Zum Inhalt</span></a>
 
-<div class="shell">
-  <header class="zyx-crop">
-    <div class="zyx-bar zyx-stand">
-      <a class="lockup zyx-lockup zyx-cell" href="https://zyxworks.com">
-        <svg class="zyx-mark zyx-mark-draw" viewBox="0 0 120 120" width="30" height="30" aria-hidden="true"><path class="zyx-mark-panels" d="M60 12L101.6 36V84L60 108L18.4 84V36Z"/><path class="zyx-mark-lines" fill-rule="evenodd" d="M60 7.09L105.82 33.55V86.45L60 112.91L14.18 86.45V33.55ZM53.6 20.6L22.68 38.45V74.16L53.6 56.3ZM66.4 20.6V56.3L97.32 74.16V38.45ZM60 67.39L29.08 85.24L60 103.09L90.92 85.24Z"/></svg>
-        <span class="name">ZyxWorks</span>
-      </a>
-      <div class="zyx-bar-end">
-        <div class="zyx-lang" role="group" aria-label="Language / Sprache">
-          <button type="button" class="zyx-cell zyx-cell-ink" data-set="en" aria-pressed="true">en</button>
-          <button type="button" class="zyx-cell zyx-cell-ink" data-set="de" aria-pressed="false">de</button>
-        </div>
-      </div>
+<header class="zyx-site-head">
+  <div class="zyx-wrap">
+    <a class="zyx-lockup" href="./"><svg class="zyx-mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 26V6M24 26L6.7 36M24 26L41.3 36"/></svg><span class="zyx-lockup-word">ZyxWorks</span></a>
+    <div class="zyx-site-acts">
+      <nav class="zyx-lang" aria-label="Language / Sprache"><a href="?lang=en" hreflang="en" lang="en" data-set="en" aria-current="true"><span aria-hidden="true">EN</span><span class="zyx-sr">English</span></a><a href="?lang=de" hreflang="de" lang="de" data-set="de"><span aria-hidden="true">DE</span><span class="zyx-sr">Deutsch</span></a></nav>
     </div>
-    <h1 data-lang="en">Tools from our own work.</h1>
-    <h1 data-lang="de">Werkzeuge aus unserer eigenen Arbeit.</h1>
-    <p class="lead" data-lang="en">We built them at ZyxWorks because we needed them, and they are free. No
-    account, no subscription, and nothing that phones home.</p>
-    <p class="lead" data-lang="de">Wir haben sie bei ZyxWorks gebaut, weil wir sie brauchten, und sie sind
-    kostenlos. Kein Konto, kein Abo, und nichts, was nach Hause telefoniert.</p>
-  </header>
+  </div>
+</header>
 
-  <main>
-  <section class="zyx-rule zyx-rule-bleed" data-zyx-reveal>
-    <h2 class="zyx-eyebrow zyx-eyebrow-n" data-lang="en"><span>Open source</span></h2>
-    <h2 class="zyx-eyebrow zyx-eyebrow-n" data-lang="de"><span>Open Source</span></h2>
-    <div class="zyx-grid zyx-grid-wide zyx-stand">
-
-      <a class="product zyx-cell" href="https://zyxworks.github.io/murmurflow/">
-        <div class="top"><svg class="pm zyx-mark zyx-hop" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path class="zyx-mark-panels" d="M60 12L73.86 20L73.86 38L87.71 30L101.57 38L101.57 82L87.71 90L73.86 82L73.86 100L60 108L46.14 100L46.14 82L32.29 90L18.43 82L18.43 38L32.29 30L46.14 38L46.14 20Z"/><path class="zyx-mark-lines" fill-rule="evenodd" d="M60 7.09L75.96 16.3L75.96 31.88L87.71 25.09L105.82 35.55L105.82 84.45L87.71 94.91L75.96 88.12L75.96 103.7L60 112.91L44.04 103.7L44.04 88.12L32.29 94.91L14.18 84.45L14.18 35.55L32.29 25.09L44.04 31.88L44.04 16.3ZM60 16.91L67.46 21.21L67.46 98.79L60 103.09L52.54 98.79L52.54 21.21ZM80.26 39.21L87.71 34.91L97.32 40.45L97.32 79.55L87.71 85.09L80.26 80.79ZM39.74 39.21L39.74 80.79L32.29 85.09L22.68 79.55L22.68 40.45L32.29 34.91Z"/></svg><span class="name">MurmurFlow</span><span class="zyx-chip zyx-chip-case">macOS &middot; Windows</span></div>
-        <p data-lang="en">Tap a key twice, speak, tap again. The words appear at your cursor, in whatever app you
-        are in. It transcribes on your own machine, so no copy of your voice leaves it.</p>
-        <p data-lang="de">Taste zweimal tippen, sprechen, noch einmal tippen. Die Worte stehen an der Schreibmarke, in
-        jeder App. Umgewandelt wird auf deinem eigenen Rechner, also verlässt keine Kopie deiner
-        Stimme das Gerät.</p>
-        <p class="origin" data-lang="en">Built while we made <b>Zyx</b>.</p>
-        <p class="origin" data-lang="de">Entstanden beim Bau von <b>Zyx</b>.</p>
-      </a>
-
-      <a class="product zyx-cell" href="https://zyxworks.github.io/agent-office/">
-        <div class="top"><svg class="pm zyx-mark zyx-hop" viewBox="0 0 120 120" width="26" height="26" aria-hidden="true"><path class="zyx-mark-panels" d="M60 18L80.78 30L80.78 54L101.57 66L101.57 90L80.78 102L60 90L39.22 102L18.43 90L18.43 66L39.22 54L39.22 30Z"/><path class="zyx-mark-lines" fill-rule="evenodd" d="M60 13.09L85.03 27.55L85.03 51.55L105.82 63.55L105.82 92.45L80.78 106.91L60 94.91L39.22 106.91L14.18 92.45L14.18 63.55L34.97 51.55L34.97 27.55ZM60 22.91L76.53 32.45L76.53 49.06L60 58.61L43.47 49.06L43.47 32.45ZM82.93 60.15L97.32 68.45L97.32 87.55L80.78 97.09L66.4 88.79L66.4 69.7ZM37.07 60.15L53.6 69.7L53.6 88.79L39.22 97.09L22.68 87.55L22.68 68.45Z"/></svg><span class="name">Agent Office</span><span class="zyx-chip zyx-chip-case">macOS &middot; Linux</span></div>
-        <p data-lang="en">A workspace for your coding agents. Each agent has its own desk and its own
-        git worktree, and you see at a glance which one waits for you. One command installs,
-        starts and updates it.</p>
-        <p data-lang="de">Ein Arbeitsplatz für deine Coding-Agenten. Jeder Agent hat einen eigenen
-        Schreibtisch und einen eigenen Git-Worktree, und du siehst auf einen Blick, welcher auf dich
-        wartet. Ein Befehl installiert, startet und aktualisiert alles.</p>
-        <p class="origin" data-lang="en">The room we build <b>Zyx</b> in.</p>
-        <p class="origin" data-lang="de">Der Raum, in dem wir <b>Zyx</b> bauen.</p>
-      </a>
-
+<main id="main">
+  <section class="zyx-hero">
+    <div class="zyx-wrap">
+      <svg class="zyx-mark zyx-hero-mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 26V6M24 26L6.7 36M24 26L41.3 36"/></svg>
+      <h1 class="zyx-hero-title"><span data-lang="en">We build Zyx, and the tools we use to make it.</span><span data-lang="de">Wir bauen Zyx und die Werkzeuge, mit denen wir es machen.</span></h1>
     </div>
   </section>
 
-  <!-- ZYX, AFTER THE TOOLS AND NEVER BEFORE THEM. The page promises tools; a visitor who came for
-       MurmurFlow and met a sales pitch first would be right to leave. Same .product card as above,
-       so it sits at the same weight as the tools. Every fact here is from the site's own copy:
-       private beta, one process, three stages, 90 days, a fixed price with money back, a person leads. -->
-  <section class="zyx-rule zyx-rule-bleed zyx-band" data-zyx-reveal>
-    <h2 class="zyx-eyebrow zyx-eyebrow-n" data-lang="en"><span>What we make for companies</span></h2>
-    <h2 class="zyx-eyebrow zyx-eyebrow-n" data-lang="de"><span>Was wir für Firmen bauen</span></h2>
-    <div class="zyx-grid zyx-grid-wide zyx-stand">
-
-      <a class="product zyx-cell" data-lang="en" href="https://zyxworks.com/en/">
-        <div class="top"><span class="name">Zyx</span><span class="zyx-chip zyx-chip-case">private beta</span></div>
-        <p>Ask your company. Zyx answers from your company's own mail, files and apps, with the
-        source on every answer. It runs on your own server, and every risky change waits for a
-        person's approval.</p>
-        <p class="origin">Not open source. Made by <b>ZyxWorks</b>.</p>
-      </a>
-      <a class="product zyx-cell" data-lang="de" href="https://zyxworks.com/">
-        <div class="top"><span class="name">Zyx</span><span class="zyx-chip zyx-chip-case">private Beta</span></div>
-        <p>Frag deine Firma. Zyx antwortet aus den E-Mails, Dateien und Apps deiner Firma, mit
-        der Quelle an jeder Antwort. Es läuft auf deinem eigenen Server, und jede riskante Änderung
-        wartet auf die Freigabe eines Menschen.</p>
-        <p class="origin">Nicht Open Source. Gebaut von <b>ZyxWorks</b>.</p>
-      </a>
-
-      <a class="product zyx-cell" data-lang="en" href="https://zyxworks.com/en/#setup">
-        <div class="top"><span class="name">The setup</span><span class="zyx-chip zyx-chip-case">90 days</span></div>
-        <p>One process. Three stages. 90 days. A person leads it on site: audit, evals,
-        deployment. Each stage is done before the next one starts. By application. One fixed
-        price for the setup, agreed before we start. Lower for beta companies than after the beta.
-        If your process does not run in the first 30 days, you get the money back.</p>
-        <p class="origin">Led by a person. <b>Zyx</b> gathers the evidence and counts.</p>
-      </a>
-      <a class="product zyx-cell" data-lang="de" href="https://zyxworks.com/#setup">
-        <div class="top"><span class="name">Die Einrichtung</span><span class="zyx-chip zyx-chip-case">90 Tage</span></div>
-        <p>Ein Ablauf. Drei Schritte. 90 Tage. Ein Mensch leitet sie vor Ort: Audit, Evals,
-        Deployment. Jeder Schritt ist fertig, bevor der nächste beginnt. Nur auf Bewerbung. Ein
-        Festpreis für die Einrichtung, vor dem Start vereinbart. Für Beta-Firmen niedriger als
-        danach. Läuft dein Ablauf in den ersten 30 Tagen nicht, bekommst du das Geld zurück.</p>
-        <p class="origin">Von einem Menschen geleitet. <b>Zyx</b> sammelt die Belege und zählt.</p>
-      </a>
-
+  <section class="products" aria-labelledby="products-t">
+    <div class="zyx-wrap">
+      <h2 class="zyx-sr" id="products-t"><span data-lang="en">Products</span><span data-lang="de">Produkte</span></h2>
+      <ul class="zyx-cards zyx-cards-fit">
+        <li>
+          <a class="zyx-card zyx-card-lg" href="https://zyxworks.com/en/" data-href-de="https://zyxworks.com/">
+            <svg class="zyx-mark zyx-mark-lg" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 26V6M24 26L6.7 36M24 26L41.3 36"/></svg>
+            <div class="card-head"><h3 class="zyx-card-title">Zyx</h3><span class="zyx-tag"><span data-lang="en">Private beta</span><span data-lang="de">Private Beta</span></span></div>
+            <p class="zyx-card-sub"><span data-lang="en">Answers from your company's own mail, files and apps, with the source. Every risky change waits for a person.</span><span data-lang="de">Antworten aus den E-Mails, Dateien und Apps deiner Firma, mit Quelle. Jede riskante Änderung wartet auf einen Menschen.</span></p>
+            <p class="card-meta">zyxworks.com</p>
+          </a>
+        </li>
+        <li>
+          <a class="zyx-card zyx-card-lg" href="https://zyxworks.github.io/murmurflow/">
+            <svg class="zyx-mark zyx-mark-lg" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 18v12M24 9v30M34 15v18"/></svg>
+            <div class="card-head"><h3 class="zyx-card-title">MurmurFlow</h3><span class="zyx-tag">macOS · Windows</span></div>
+            <p class="zyx-card-sub"><span data-lang="en">Dictation that runs on your own machine. Tap a key twice, speak, tap again, and the words land at your cursor.</span><span data-lang="de">Diktieren, das auf deinem eigenen Rechner läuft. Taste zweimal tippen, sprechen, noch einmal tippen, und die Worte stehen an der Schreibmarke.</span></p>
+            <p class="card-meta"><span data-lang="en">Free, open source</span><span data-lang="de">Kostenlos, Open Source</span></p>
+          </a>
+        </li>
+        <li>
+          <a class="zyx-card zyx-card-lg" href="https://zyxworks.github.io/agent-office/">
+            <svg class="zyx-mark zyx-mark-lg" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 13l11 11-11 11M24 36h16"/></svg>
+            <div class="card-head"><h3 class="zyx-card-title">Agent Office</h3><span class="zyx-tag">macOS · Linux</span></div>
+            <p class="zyx-card-sub"><span data-lang="en">A workspace for your coding agents, each in its own git worktree. You see which one waits for you.</span><span data-lang="de">Ein Arbeitsplatz für deine Coding-Agenten, jeder im eigenen Git-Worktree. Du siehst, welcher auf dich wartet.</span></p>
+            <p class="card-meta"><span data-lang="en">Free, open source</span><span data-lang="de">Kostenlos, Open Source</span></p>
+          </a>
+        </li>
+      </ul>
     </div>
   </section>
-  </main>
-</div>
+</main>
 
-<footer class="zyx-rule" data-zyx-reveal>
-  <div class="shell">
-    <p class="who" data-lang="en">ZyxWorks makes Zyx and the open tools above.</p>
-    <p class="who" data-lang="de">ZyxWorks baut Zyx und die offenen Werkzeuge oben.</p>
-    <div class="foot zyx-grid zyx-grid-wide zyx-stand">
-      <a class="zyx-cell zyx-cell-box" href="https://zyxworks.com/en/" data-lang="en">zyxworks.com<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
-      <a class="zyx-cell zyx-cell-box" href="https://zyxworks.com/" data-lang="de">zyxworks.com<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
-      <a class="zyx-cell zyx-cell-box" href="https://github.com/ZyxWorks">GitHub<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
-      <a class="zyx-cell zyx-cell-box" href="https://zyxworks.com/en/legal/" data-lang="en">Imprint<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
-      <a class="zyx-cell zyx-cell-box" href="https://zyxworks.com/legal/" data-lang="de">Impressum<span class="zyx-arrow" aria-hidden="true">&rarr;</span></a>
-      <div class="copyright">&copy; <span id="year">2026</span> ZyxWorks</div>
+<footer class="zyx-site-foot" data-zyx-reveal>
+  <div class="zyx-wrap">
+    <div class="zyx-site-foot-cols">
+      <div class="zyx-site-foot-brand"><span class="zyx-lockup"><svg class="zyx-mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 26V6M24 26L6.7 36M24 26L41.3 36"/></svg><span class="zyx-lockup-word">ZyxWorks</span></span></div>
+      <div><h2>Links</h2><ul><li><a href="https://zyxworks.com/en/" data-href-de="https://zyxworks.com/">zyxworks.com</a></li><li><a href="https://github.com/ZyxWorks">GitHub</a></li></ul></div>
     </div>
+    <div class="zyx-site-foot-legal"><span>© <span id="year">2026</span> ZyxWorks</span><a href="https://zyxworks.com/en/legal/#imprint" data-href-de="https://zyxworks.com/legal/#imprint"><span data-lang="en">Legal notice</span><span data-lang="de">Impressum</span></a><a href="https://zyxworks.com/en/legal/#privacy" data-href-de="https://zyxworks.com/legal/#privacy"><span data-lang="en">Privacy</span><span data-lang="de">Datenschutz</span></a></div>
   </div>
 </footer>
 
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  // The language switch. <html lang> carries the state (CSS does the showing), localStorage
-  // remembers it, and the head sets it before first paint so a returning visitor sees no flash.
+  // The language switch. Each link works on its own (?lang=, read by the head script); with the
+  // script it switches in place, keeps the URL in step and remembers the choice. A link whose
+  // target differs by language carries data-href-de.
   (function () {
-    var buttons = document.querySelectorAll(".zyx-lang button");
-    function set(lang, store) {
-      document.documentElement.lang = lang;
-      buttons.forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.set === lang); });
-      if (store) { try { localStorage.setItem("lang", lang); } catch (e) {} }
+    var root = document.documentElement;
+    var langLinks = document.querySelectorAll(".zyx-lang a");
+    var targets = document.querySelectorAll("[data-href-de]");
+    targets.forEach(function (a) { a.setAttribute("data-href-en", a.getAttribute("href")); });
+    function set(lang) {
+      root.lang = lang;
+      langLinks.forEach(function (a) {
+        if (a.dataset.set === lang) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+      });
+      targets.forEach(function (a) { a.setAttribute("href", a.getAttribute("data-href-" + lang)); });
     }
-    buttons.forEach(function (b) {
-      b.addEventListener("click", function () { set(b.dataset.set, true); });
+    langLinks.forEach(function (a) {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        set(a.dataset.set);
+        try { localStorage.setItem("lang", a.dataset.set); } catch (err) {}
+        try { history.replaceState(null, "", "?lang=" + a.dataset.set); } catch (err) {}
+      });
     });
-    set(document.documentElement.lang === "de" ? "de" : "en");
+    set(root.lang === "de" ? "de" : "en");
   })();
 </script>
-
 </body>
 </html>
