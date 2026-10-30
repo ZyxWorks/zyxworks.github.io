@@ -46,8 +46,11 @@
   body { margin: 0; background: var(--z-bg); color: var(--z-text); }
   html[lang="en"] [data-lang="de"], html[lang="de"] [data-lang="en"] { display: none; }
 
-  .products { padding-block: 0 96px; }
-  .products ul { margin: 0; padding: 0; list-style: none; }
+  /* Three cards in one row, one column on a phone. auto-fit (not the library's auto-fill) so three
+     cards share the row and leave no empty fourth track. The card lines are short, so German words
+     are not split by syllable here (two-line blurbs with three hyphens read badly). */
+  .products { hyphens: manual; }
+  .products ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); margin: 0; padding: 0; list-style: none; }
   .products li { display: flex; }
 
   /* zyx-ui-allow-block: library gap, a card that is one link (RB-9 notes); remove when the library ships it.
@@ -66,8 +69,6 @@
   a.zyx-card .zyx-card-sub { margin: 0; color: var(--z-text-2); font-size: var(--z-t-read); line-height: var(--z-lead-read); }
   /* zyx-ui-allow-end */
   .card-meta { margin-top: auto; color: var(--z-text-3); font-size: var(--z-t-meta); }
-
-  @media (max-width: 767px) { .products { padding-bottom: 56px; } }
 </style>
 </head>
 <body>
@@ -77,7 +78,7 @@
   <div class="zyx-wrap">
     <a class="zyx-lockup" href="./"><svg class="zyx-mark" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 26V6M24 26L6.7 36M24 26L41.3 36"/></svg><span class="zyx-lockup-word">ZyxWorks</span></a>
     <div class="zyx-site-acts">
-      <nav class="zyx-lang" aria-label="Language / Sprache"><a href="?lang=en" hreflang="en" lang="en" data-set="en"><span aria-hidden="true">EN</span><span class="zyx-sr">English</span></a><a href="?lang=de" hreflang="de" lang="de" data-set="de"><span aria-hidden="true">DE</span><span class="zyx-sr">Deutsch</span></a></nav>
+      <nav class="zyx-lang" aria-label="Language / Sprache"><a href="?lang=en" hreflang="en" lang="en" data-set="en" aria-current="true"><span aria-hidden="true">EN</span><span class="zyx-sr">English</span></a><a href="?lang=de" hreflang="de" lang="de" data-set="de"><span aria-hidden="true">DE</span><span class="zyx-sr">Deutsch</span></a></nav>
     </div>
   </div>
 </header>
