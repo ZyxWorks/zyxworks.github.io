@@ -2,7 +2,7 @@
 
 ### The org page of [ZyxWorks](https://github.com/ZyxWorks), the engineering practice that builds Zyx and the open tools.
 
-One page: the ZyxWorks mark, one line about the studio, and three cards for what we make, each with its docs and release notes.
+One page: the ZyxWorks mark, one line about the studio, and three cards for what we make, each with its docs, and release notes for the open tools.
 Live at **[zyxworks.github.io](https://zyxworks.github.io/)**.
 
 ![Few files](https://img.shields.io/badge/files-1%20html%20%2B%20the%20ui%20copy-111111)
