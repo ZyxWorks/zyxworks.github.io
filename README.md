@@ -2,7 +2,7 @@
 
 ### The org page of [ZyxWorks](https://github.com/ZyxWorks), the engineering practice that builds Zyx and the open tools.
 
-One page: the ZyxWorks mark, one line about the studio, and three cards for what we make.
+One page: the ZyxWorks mark, one line about the studio, and three cards for what we make, each with its docs and release notes.
 Live at **[zyxworks.github.io](https://zyxworks.github.io/)**.
 
 ![Few files](https://img.shields.io/badge/files-1%20html%20%2B%20the%20ui%20copy-111111)
@@ -53,15 +53,12 @@ Then look at the page in a browser at 1440, 1024, 390 and 320 px, in English and
 
 ## A note on the robots policy
 
-The site is deliberately not indexed, and both halves of that are on purpose:
+The site is indexed since the Impressum went live at [zyx.works/legal/](https://zyx.works/legal/).
 
-- `robots.txt` lets **Googlebot and Bingbot crawl**. Blocking a crawler cannot remove a URL from an index, it only freezes whatever is already in there.
-- the `noindex` meta tag in the HTML is what actually removes the page, and a crawler has to be let in to read it.
-- everyone else, AI crawlers included, is disallowed on all paths.
+- `robots.txt` lets every search engine crawl and keeps the named AI crawlers out, on all paths.
+- the pages carry `ai-content-declaration: noai` and a canonical URL, and no `noindex`.
 
-**Any new page in this repo needs the same two tags**, or it becomes the one indexed page here.
-
-**This file is at the host root.** This repo is the organization's user site, so `zyxworks.github.io/robots.txt` is served and the "everyone else, stay out" rule covers the host and its sibling project pages too (`/murmurflow`, `/agent-office`).
+**This file is at the host root.** This repo is the organization's user site, so `zyxworks.github.io/robots.txt` is served for the host and its sibling project pages too (`/murmurflow`, `/agent-office`).
 
 ## Links
 
