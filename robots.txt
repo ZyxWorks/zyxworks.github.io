@@ -1,19 +1,26 @@
-# The site is deliberately not listed anywhere. Visitors reach it by typing the URL.
-# Revisit this once there is a proper Impressum.
+# zyxworks.github.io: this page and the tool pages under it (/murmurflow, /agent-office).
+# Search engines may crawl and index them since the Impressum went live (zyx.works/legal/).
+# The named AI crawlers below stay out, all paths. The pages also say so with ai-content-declaration: noai.
 
-# Search engines are allowed to CRAWL on purpose. That is not a mistake.
-# robots.txt cannot remove a page from an index, only the "noindex" meta tag in the
-# HTML can, and a crawler has to be let in to read it. Blocking them here would
-# freeze any already-indexed URL in place forever.
-User-agent: Googlebot
-Disallow:
-
-User-agent: Bingbot
-Disallow:
-
-# Everyone else, AI crawlers included (GPTBot, ClaudeBot, Google-Extended,
-# PerplexityBot, CCBot, Bytespider, ...): stay out, all paths.
-User-agent: *
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: OAI-SearchBot
+User-agent: ClaudeBot
+User-agent: Claude-User
+User-agent: Claude-SearchBot
+User-agent: Claude-Web
+User-agent: anthropic-ai
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: CCBot
+User-agent: Bytespider
+User-agent: Amazonbot
+User-agent: meta-externalagent
+User-agent: meta-externalfetcher
+User-agent: cohere-ai
 Disallow: /
 
-# Any new page must carry the same "noindex" meta tag as index.html.
+User-agent: *
+Allow: /

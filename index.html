@@ -12,10 +12,10 @@
 <meta property="og:title" content="ZyxWorks">
 <meta property="og:description" content="We build Zyx, and the tools we use to make it.">
 <meta property="og:type" content="website">
-<!-- Not listed anywhere: a visitor gets here by typing the URL. "noindex" is what actually
-     removes the page from a search index; robots.txt only stops the crawl. Both are in place.
-     Lifting it is the owner's call. Any new page needs the same two tags. -->
-<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta property="og:url" content="https://zyxworks.github.io/">
+<!-- Indexed since the Impressum went live at zyx.works/legal/. robots.txt lets search engines in
+     and keeps the named AI crawlers out, for this page and the tool pages under this host. -->
+<link rel="canonical" href="https://zyxworks.github.io/">
 <meta name="ai-content-declaration" content="noai, noimageai">
 <script>
   // EN/DE: <html lang> is the only state. ?lang= wins, then the saved choice, else English.
@@ -46,14 +46,20 @@
   body { margin: 0; background: var(--z-bg); color: var(--z-text); }
   html[lang="en"] [data-lang="de"], html[lang="de"] [data-lang="en"] { display: none; }
 
-  /* The three cards: zyx-cards-fit shares the row, zyx-card-lg is the site card, a.zyx-card is the
-     link look (1.1). The page only stacks the parts inside a card and sets the list. */
+  /* The three cards: zyx-cards-fit shares the row, zyx-card-lg is the site card. The title is the
+     card's link; its ::after covers the card, so the whole card opens the product page, and the
+     links row sits above that cover so each link stays its own target. */
   .products ul { margin: 0; padding: 0; list-style: none; }
   .products li { display: flex; }
-  .products li > a { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+  .product { position: relative; display: flex; flex-direction: column; gap: 16px; width: 100%; transition: background-color var(--z-d-fast) var(--z-ease), border-color var(--z-d-fast) var(--z-ease); }
+  .product:hover { border-color: var(--z-line-ctl); background: var(--z-hover); }
   .card-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .card-head a { color: inherit; text-decoration: none; }
+  .card-head a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+  .card-head a:focus-visible { outline: none; }
+  .product:has(.card-head a:focus-visible) { outline: 2px solid var(--z-accent); outline-offset: 2px; }
   .products p { margin: 0; }
-  .products .card-meta { margin-top: auto; color: var(--z-text-3); font-size: var(--z-t-meta); }
+  .products .card-links { position: relative; display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: auto; font-size: var(--z-t-meta); }
   /* zyx-ui-allow-block: the library has no hero size for the mark yet; remove when it ships zyx-mark-hero.
      The hero axis is the one bold thing on the page: it has to outrank the 32 px card marks clearly.
      Spec 03 draws the big mark at 72 px with stroke 2 on the 48 grid (3 px); this keeps that ratio. */
@@ -87,28 +93,28 @@
       <h2 class="zyx-sr" id="products-t"><span data-lang="en">Products</span><span data-lang="de">Produkte</span></h2>
       <ul class="zyx-cards zyx-cards-fit">
         <li>
-          <a class="zyx-card zyx-card-lg" href="https://zyx.works/en/" data-href-de="https://zyx.works/">
+          <div class="zyx-card zyx-card-lg product">
             <svg class="zyx-mark zyx-mark-lg" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 26V6M24 26L6.7 36M24 26L41.3 36"/></svg>
-            <div class="card-head"><h3 class="zyx-card-title">Zyx</h3><span class="zyx-tag"><span data-lang="en">Private beta</span><span data-lang="de">Private Beta</span></span></div>
-            <p class="zyx-card-sub"><span data-lang="en">Our product. Ask your company. On your own server. Every answer names its source, and every risky change waits for a person.</span><span data-lang="de">Unser Produkt. Frag deine Firma. Auf deinem eigenen Server. Jede Antwort nennt ihre Quelle, und jede riskante Änderung wartet auf einen Menschen.</span></p>
-            <p class="card-meta">zyx.works</p>
-          </a>
+            <div class="card-head"><h3 class="zyx-card-title"><a href="https://zyx.works/en/" data-href-de="https://zyx.works/">Zyx</a></h3><span class="zyx-tag"><span data-lang="en">Private beta</span><span data-lang="de">Private Beta</span></span></div>
+            <p class="zyx-card-sub"><span data-lang="en">Our product. Ask your company. On your own server. Every answer names its source, and every risky change waits for a person. Not open source.</span><span data-lang="de">Unser Produkt. Frag deine Firma. Auf deinem eigenen Server. Jede Antwort nennt ihre Quelle, und jede riskante Änderung wartet auf einen Menschen. Nicht Open Source.</span></p>
+            <p class="card-links"><a class="zyx-link" href="https://zyx.works/en/" data-href-de="https://zyx.works/">zyx.works</a><a class="zyx-link" href="https://zyx.works/docs/"><span data-lang="en">Docs</span><span data-lang="de">Doku</span></a></p>
+          </div>
         </li>
         <li>
-          <a class="zyx-card zyx-card-lg" href="https://zyxworks.github.io/murmurflow/">
+          <div class="zyx-card zyx-card-lg product">
             <svg class="zyx-mark zyx-mark-lg" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 18v12M24 9v30M34 15v18"/></svg>
-            <div class="card-head"><h3 class="zyx-card-title">MurmurFlow</h3><span class="zyx-tag">macOS · Windows</span></div>
-            <p class="zyx-card-sub"><span data-lang="en">Dictation that runs on your own machine. Tap a key twice, speak, tap again, and the words land at your cursor.</span><span data-lang="de">Diktieren, das auf deinem eigenen Rechner läuft. Taste zweimal tippen, sprechen, noch einmal tippen, und die Worte stehen an der Schreibmarke.</span></p>
-            <p class="card-meta"><span data-lang="en">Free, open source</span><span data-lang="de">Kostenlos, Open Source</span></p>
-          </a>
+            <div class="card-head"><h3 class="zyx-card-title"><a href="https://zyxworks.github.io/murmurflow/">MurmurFlow</a></h3><span class="zyx-tag">macOS · Windows</span></div>
+            <p class="zyx-card-sub"><span data-lang="en">Dictation that runs on your own machine. Tap a key twice, speak, tap again, and the words land at your cursor. Free, open source.</span><span data-lang="de">Diktieren, das auf deinem eigenen Rechner läuft. Taste zweimal tippen, sprechen, noch einmal tippen, und die Worte stehen an der Schreibmarke. Kostenlos, Open Source.</span></p>
+            <p class="card-links"><a class="zyx-link" href="https://github.com/ZyxWorks/murmurflow#readme"><span data-lang="en">Docs</span><span data-lang="de">Doku</span></a><a class="zyx-link" href="https://github.com/ZyxWorks/murmurflow/releases"><span data-lang="en">Release notes</span><span data-lang="de">Versionshinweise</span></a><a class="zyx-link" href="https://github.com/ZyxWorks/murmurflow"><span data-lang="en">Source</span><span data-lang="de">Quellcode</span></a></p>
+          </div>
         </li>
         <li>
-          <a class="zyx-card zyx-card-lg" href="https://zyxworks.github.io/agent-office/">
+          <div class="zyx-card zyx-card-lg product">
             <svg class="zyx-mark zyx-mark-lg" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 13l11 11-11 11M24 36h16"/></svg>
-            <div class="card-head"><h3 class="zyx-card-title">Agent Office</h3><span class="zyx-tag">macOS · Linux</span></div>
-            <p class="zyx-card-sub"><span data-lang="en">A workspace for your coding agents, each in its own git worktree. You see which one waits for you.</span><span data-lang="de">Ein Arbeitsplatz für deine Coding-Agenten, jeder im eigenen Git-Worktree. Du siehst, welcher auf dich wartet.</span></p>
-            <p class="card-meta"><span data-lang="en">Free, open source</span><span data-lang="de">Kostenlos, Open Source</span></p>
-          </a>
+            <div class="card-head"><h3 class="zyx-card-title"><a href="https://zyxworks.github.io/agent-office/">Agent Office</a></h3><span class="zyx-tag">macOS · Linux</span></div>
+            <p class="zyx-card-sub"><span data-lang="en">A workspace for your coding agents, each in its own git worktree. You see which one waits for you. Free, open source.</span><span data-lang="de">Ein Arbeitsplatz für deine Coding-Agenten, jeder im eigenen Git-Worktree. Du siehst, welcher auf dich wartet. Kostenlos, Open Source.</span></p>
+            <p class="card-links"><a class="zyx-link" href="https://github.com/ZyxWorks/agent-office/blob/main/GETTING-STARTED.md"><span data-lang="en">Getting started</span><span data-lang="de">Erste Schritte</span></a><a class="zyx-link" href="https://github.com/ZyxWorks/agent-office/releases"><span data-lang="en">Release notes</span><span data-lang="de">Versionshinweise</span></a><a class="zyx-link" href="https://github.com/ZyxWorks/agent-office"><span data-lang="en">Source</span><span data-lang="de">Quellcode</span></a></p>
+          </div>
         </li>
       </ul>
     </div>
