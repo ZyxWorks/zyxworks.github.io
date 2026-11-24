@@ -80,7 +80,8 @@
   :where(h1, h2, h3) { hyphenate-limit-chars: 13 6 7; -webkit-hyphenate-limit-before: 6; -webkit-hyphenate-limit-after: 7; overflow-wrap: break-word; }
 </style>
 <!-- Hovering a link to another page on zyxworks.github.io prerenders it, so the step there is instant (Chromium; elsewhere a normal load). -->
-<script type="speculationrules">{"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
+<!-- Not this page itself: the logo and the language switch stay here. -->
+<script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/"}},{"not":{"href_matches":"/index.html"}},{"not":{"selector_matches":".zyx-lang a"}}]},"eagerness":"moderate"}]}</script>
 </head>
 <body>
 <a class="zyx-skip" href="#main"><span data-lang="en">Skip to content</span><span data-lang="de">Zum Inhalt</span></a>
