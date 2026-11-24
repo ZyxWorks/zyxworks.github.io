@@ -66,7 +66,21 @@
   .zyx-hero-mark { width: 112px; height: 112px; stroke-width: 4.5px; }
   @media (max-width: 640px) { .zyx-hero-mark { width: 80px; height: 80px; stroke-width: 3.25px; } }
   /* zyx-ui-allow-end */
+  /* Page to page across zyxworks.github.io (the tools index, MurmurFlow, Agent Office): one short
+     cross-fade, the library's dialog time and ease, as a cross-document View Transition. No slide and
+     no rise of the whole page (brand rule). A browser without it just loads the page; with less motion
+     there is no transition. */
+  @media (prefers-reduced-motion: no-preference) {
+    @view-transition { navigation: auto; }
+    ::view-transition-group(root) { animation-duration: var(--z-d-dialog); animation-timing-function: var(--z-ease); }
+  }
+  /* A heading breaks a word only when it is a long compound (13 letters or more), at a real
+     hyphenation point, with 6 letters before and 7 after the break; short words never split. A word
+     too long for the line still wraps instead of running out of the frame. */
+  :where(h1, h2, h3) { hyphenate-limit-chars: 13 6 7; -webkit-hyphenate-limit-before: 6; -webkit-hyphenate-limit-after: 7; overflow-wrap: break-word; }
 </style>
+<!-- Hovering a link to another page on zyxworks.github.io prerenders it, so the step there is instant (Chromium; elsewhere a normal load). -->
+<script type="speculationrules">{"prerender":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>
 </head>
 <body>
 <a class="zyx-skip" href="#main"><span data-lang="en">Skip to content</span><span data-lang="de">Zum Inhalt</span></a>
@@ -152,7 +166,11 @@
     langLinks.forEach(function (a) {
       a.addEventListener("click", function (e) {
         e.preventDefault();
-        set(a.dataset.set);
+        // The words swap with the same short cross-fade as a page change (a same-document View
+        // Transition); with less motion, or without it, they swap at once.
+        var swap = function () { set(a.dataset.set); };
+        if (document.startViewTransition && !matchMedia("(prefers-reduced-motion: reduce)").matches) document.startViewTransition(swap);
+        else swap();
         try { localStorage.setItem("lang", a.dataset.set); } catch (err) {}
         try { history.replaceState(null, "", "?lang=" + a.dataset.set); } catch (err) {}
       });
